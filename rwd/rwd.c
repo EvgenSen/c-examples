@@ -8,8 +8,9 @@
 
 /* default values */
 #define DEF_MTD_NAME   "/dev/mtdblock0"
+#define TEST_MTD_NAME  "/dev/mtdblock4"
 #define DEF_OUT_NAME   "/tmp/rwd.txt"
-#define DEF_MAX_COUNT  500
+#define DEF_MAX_COUNT  1
 #define DEF_OFFSET     0x8
 
 FILE *log_file;
@@ -57,6 +58,7 @@ int readMTD (int offset, int max_cnt, char * mtd_name)
         print_dbg("i: %5d\n", i);
       lseek(mtd, offset, SEEK_SET);
       read(mtd, buffer, sizeof(buffer));
+      buffer[511] = '\0';
       print_dbg("Read addr %#010x: \"%s\"\n", offset, buffer);
       close(mtd);
     }
@@ -71,6 +73,33 @@ int readMTD (int offset, int max_cnt, char * mtd_name)
   return 0;
 }
 
+int writeMTD (int offset, int max_cnt, char * mtd_name)
+{
+  int mtd = open(mtd_name, O_RDWR);
+  size_t sz = 0;
+  if(mtd > 0)
+  {
+    lseek(mtd, offset, SEEK_SET);
+    if((sz = write(mtd, "my test msg for flash", 128) ) < 0)
+    {
+      perror("Can't write to file");
+      return 1;
+    }
+    else
+    {
+      printf("Successful write to addr %#010x on %s\n", offset, mtd_name);
+    }
+    fsync(mtd);
+    close(mtd);
+    return 0;
+  }
+  else
+  {
+    perror("Can't open file");
+  }
+  return 1;
+}
+
 int main(int argc, const char *argv[])
 {
   int ret_value = -1;
@@ -81,7 +110,7 @@ int main(int argc, const char *argv[])
   char output_name[256] = {0};
   log_file = stderr;
 
-  if (argc >= 10)
+  if (argc >= 10 || argc == 1)
     goto __print_usage;
 
   /* Parsing args */
@@ -115,7 +144,7 @@ int main(int argc, const char *argv[])
   }
 
   /* Start action */
-  if(argc == 1 || !strcmp(argv[1], "-r") || !strcmp(argv[1], "read"))
+  if(!strcmp(argv[1], "-r") || !strcmp(argv[1], "read"))
   {
     fprintf(stderr, "Start read from: %s Offset: %#010x Count: %d\n", mtd_name, offset, max_cnt);
     ret_value = readMTD (offset, max_cnt, mtd_name);
@@ -123,18 +152,32 @@ int main(int argc, const char *argv[])
   }
   else if(!strcmp(argv[1], "-t") || !strcmp(argv[1], "test"))
   {
-    // TODO: write and read
-    ret_value = 0;
-    fprintf(stderr, "Start test Offset: %#010x Count: %d\n", offset, max_cnt);
-    fprintf(stderr, "First dev: %s\n", DEF_MTD_NAME);
-    //fprintf(stderr, "Second dev: /dev/mtdblock4\n");
-    for (i=0; i<max_cnt; i++)
+    if(!strcmp(argv[2], "dm"))
     {
-      print_dbg("i: %5d\n", i);
-      ret_value += readMTD (offset, 1, DEF_MTD_NAME);
-      //usleep(50);
-      //ret_value += readMTD (offset, 1, "/dev/mtdblock4");
-      printProgress(i, max_cnt);
+      if (max_cnt == 1)
+        max_cnt = 100;
+      ret_value = 0;
+      fprintf(stderr, "Start test Offset: %#010x Count: %d\n", offset, max_cnt);
+      fprintf(stderr, "First dev: %s\n", DEF_MTD_NAME);
+      fprintf(stderr, "Second dev: /dev/mtdblock4\n");
+      for (i=0; i<max_cnt; i++)
+      {
+        print_dbg("i: %5d\n", i);
+        ret_value += readMTD (offset, 1, DEF_MTD_NAME);
+        //usleep(50);
+        ret_value += readMTD (offset, 1, TEST_MTD_NAME);
+        printProgress(i, max_cnt);
+      }
+    } 
+    else if (!strcmp(argv[2], "rw"))
+    {
+      // TODO: write, read and compare
+    }
+    else
+    {
+      fprintf(stderr, "Usage:\n");
+      fprintf(stderr, "    test dm - Write to different mtd\n");
+      //fprintf(stderr, "    test rw - Read and write operation\n");
     }
     goto __exit;
   }
@@ -153,30 +196,9 @@ int main(int argc, const char *argv[])
   }
   else if (!strcmp(argv[1], "-w") || !strcmp(argv[1], "write"))
   {
-    int mtd = open(mtd_name, O_RDWR);
-    size_t sz = 0;
-    if(mtd > 0)
-    {
-      lseek(mtd, offset, SEEK_SET);
-      if((sz = write(mtd, "my test msg for flash", 128) ) < 0)
-      {
-        perror("Can't write to file");
-        goto __exit;
-      }
-      else
-      {
-        printf("Successful write to addr %#010x on %s\n", offset, mtd_name);
-      }
-      fsync(mtd);
-      close(mtd);
-      ret_value = 0;
-      goto __exit;
-    }
-    else
-    {
-      perror("Can't open file");
-      goto __exit;
-    }
+    fprintf(stderr, "Start write to: %s Offset: %#010x Count: %d\n", mtd_name, offset, max_cnt);
+    ret_value = writeMTD (offset, max_cnt, mtd_name);
+    goto __exit;
   }
 
 __print_usage:
@@ -202,6 +224,6 @@ __exit:
     fclose((FILE *)log_file);
     log_file = NULL;
   }
-  fprintf(stderr, "Program exit with code %d\n", ret_value);
+  //fprintf(stderr, "Program exit with code %d\n", ret_value);
   return ret_value;
 }
