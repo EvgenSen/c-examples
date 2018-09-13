@@ -1,3 +1,13 @@
+/*
+ * rwd.c - Read Write Dev
+ *
+ * This example shows how to write and read from MTD devices
+ *
+ * Author: Evgeniy Sennikov <sennikov.work@ya.ru>
+ *
+ * Licence: GPLv3
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
