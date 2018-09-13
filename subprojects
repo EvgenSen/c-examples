@@ -1,0 +1,3 @@
+targets = rwd \
+	string_parser \
+	time_of_work \
