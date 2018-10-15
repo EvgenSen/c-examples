@@ -1,5 +1,7 @@
 include subprojects
 
+export PROJECT_PATH=$(PWD)
+
 .PHONY: all build clean $(targets)
 
 all: $(targets)
