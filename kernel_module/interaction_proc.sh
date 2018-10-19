@@ -20,6 +20,8 @@ insmod interaction_proc.ko
 echo -e "\n  Proc output:\n"
 cat /proc/$PROC_NAME
 
+echo "test msg for kernel" > /proc/$PROC_NAME
+
 rmmod interaction_proc.ko
 
 echo -e "\n  Log info:\n"
