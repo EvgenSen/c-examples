@@ -14,6 +14,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <arpa/inet.h>
+
+#define MAX_ADDR_STR 64
 
 /*
  * Функция получает битовую маску флагов интерфейса на основе
@@ -45,7 +48,7 @@ int get_if_state(char *if_name)
 
   if ((fd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
   {
-    printf("%s: socket() error", __func__);
+    printf("%s: socket() error\n", __func__);
     return -1;
   }
 
@@ -53,13 +56,77 @@ int get_if_state(char *if_name)
 
   if (ioctl(fd, SIOCGIFFLAGS, &pIfr) < 0)
   {
-    printf("%s: get SIOCGIFFLAGS for %s error", __func__, if_name);
+    printf("%s: get SIOCGIFFLAGS for %s error\n", __func__, if_name);
     close(fd);
     return -1;
   }
 
   close(fd);
   return (pIfr.ifr_flags & IFF_UP) ? 1 : 0;
+}
+
+/*
+ * Функция получает IP адрес интерфейса при помощи вызова
+ * SIOCGIFADDR и записывает его в структуру sockaddr_in
+ */
+int get_if_ip (char *if_name, struct sockaddr_in *sin)
+{
+  int fd;
+  char * ip;
+  struct ifreq pIfr;
+
+  memset(&pIfr, 0, sizeof(pIfr));
+
+  if ((fd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
+  {
+    printf("%s: socket() error\n", __func__);
+    return -1;
+  }
+
+  strcpy(pIfr.ifr_name, if_name);
+
+  if (ioctl(fd, SIOCGIFADDR, &pIfr) < 0)
+  {
+    //printf("%s: get SIOCGIFADDR for %s error\n", __func__, if_name);
+    close(fd);
+    return -1;
+  }
+
+  memcpy (sin, &(pIfr.ifr_addr), sizeof (struct sockaddr_in));
+  close(fd);
+  return 0;
+}
+
+/*
+ * Функция получает маску интерфейса при помощи вызова
+ * SIOCGIFNETMASK и записывает ее в структуру sockaddr_in
+ */
+int get_if_mask (char *if_name, struct sockaddr_in *sin)
+{
+  int fd;
+  char * ip;
+  struct ifreq pIfr;
+
+  memset(&pIfr, 0, sizeof(pIfr));
+
+  if ((fd = socket (AF_INET, SOCK_DGRAM, 0)) < 0)
+  {
+    printf("%s: socket() error\n", __func__);
+    return -1;
+  }
+
+  strcpy(pIfr.ifr_name, if_name);
+
+  if (ioctl(fd, SIOCGIFNETMASK, &pIfr) < 0)
+  {
+    //printf("%s: get SIOCGIFNETMASK for %s error\n", __func__, if_name);
+    close(fd);
+    return -1;
+  }
+
+  memcpy (sin, &(pIfr.ifr_addr), sizeof (struct sockaddr_in));
+  close(fd);
+  return 0;
 }
 
 int main(int argc, const char *argv[])
@@ -71,12 +138,24 @@ int main(int argc, const char *argv[])
 
   for(i=1;;i++)
   {
+    char ip_str[MAX_ADDR_STR], mask_str[MAX_ADDR_STR];
+    struct sockaddr_in sin;
     pIfr.ifr_ifindex = i;
     if (ioctl(fd, SIOCGIFNAME, &pIfr) < 0)
-    {
       break;
-    }
-    printf("%s\tIndex: %d State: %s\n", pIfr.ifr_name, pIfr.ifr_ifindex, get_if_state(pIfr.ifr_name) ? "Up" : "Down");
+
+    if (get_if_ip(pIfr.ifr_name, &sin) == 0)
+      strcpy(ip_str, inet_ntoa(sin.sin_addr));
+    else
+      strcpy(ip_str, "none");
+
+    if (get_if_mask(pIfr.ifr_name, &sin) == 0)
+      strcpy(mask_str, inet_ntoa(sin.sin_addr));
+    else
+      strcpy(mask_str, "none");
+
+    printf("%s\t  Index: %d  State: %s\n", pIfr.ifr_name, pIfr.ifr_ifindex, get_if_state(pIfr.ifr_name) ? "Up" : "Down");
+    printf("\t  Addr: %s  Mask: %s\n", ip_str, mask_str);
     printf("\n");
   }
 
