@@ -10,7 +10,7 @@ static int __init hello_init(void)
 
 static void __exit hello_cleanup(void)
 {
-    printk(KERN_INFO " #### hello_world module stopped.\n");
+    printk(KERN_INFO " #### hello_world module stopped\n");
 }
 
 MODULE_LICENSE("GPL");

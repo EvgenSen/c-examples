@@ -40,7 +40,7 @@
  *   IFF_AUTOMEDIA    Запущен автоматический выбор носителя.
  *   IFF_DYNAMIC      Эти адреса потеряны, если интерфейс неактивен. 
  */
-int get_if_state(char *if_name)
+int get_iface_state(char *if_name)
 {
   int fd;
   struct ifreq pIfr;
@@ -69,7 +69,7 @@ int get_if_state(char *if_name)
  * Функция получает IP адрес интерфейса при помощи вызова
  * SIOCGIFADDR и записывает его в структуру sockaddr_in
  */
-int get_if_ip (char *if_name, struct sockaddr_in *sin)
+int get_iface_ip (char *if_name, struct sockaddr_in *sin)
 {
   int fd;
   char * ip;
@@ -101,7 +101,7 @@ int get_if_ip (char *if_name, struct sockaddr_in *sin)
  * Функция получает маску интерфейса при помощи вызова
  * SIOCGIFNETMASK и записывает ее в структуру sockaddr_in
  */
-int get_if_mask (char *if_name, struct sockaddr_in *sin)
+int get_iface_mask (char *if_name, struct sockaddr_in *sin)
 {
   int fd;
   char * ip;
@@ -144,18 +144,18 @@ int main(int argc, const char *argv[])
     if (ioctl(fd, SIOCGIFNAME, &pIfr) < 0)
       break;
 
-    if (get_if_ip(pIfr.ifr_name, &sin) == 0)
+    if (get_iface_ip(pIfr.ifr_name, &sin) == 0)
       strcpy(ip_str, inet_ntoa(sin.sin_addr));
     else
       strcpy(ip_str, "none");
 
-    if (get_if_mask(pIfr.ifr_name, &sin) == 0)
+    if (get_iface_mask(pIfr.ifr_name, &sin) == 0)
       strcpy(mask_str, inet_ntoa(sin.sin_addr));
     else
       strcpy(mask_str, "none");
 
-    printf("%s\t  Index: %d  State: %s\n", pIfr.ifr_name, pIfr.ifr_ifindex, get_if_state(pIfr.ifr_name) ? "Up" : "Down");
-    printf("\t  Addr: %s  Mask: %s\n", ip_str, mask_str);
+    printf("%-10s  Index: %d  State: %s\n", pIfr.ifr_name, pIfr.ifr_ifindex, get_iface_state(pIfr.ifr_name) ? "Up" : "Down");
+    printf("%-10s  Addr: %s  Mask: %s\n", " ", ip_str, mask_str);
     printf("\n");
   }
 
