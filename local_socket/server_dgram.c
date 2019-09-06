@@ -15,8 +15,7 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
-#define SOCK_FILE "./file.sock"
-#define MSG_LEN 256
+#include "conn_info.h"
 
 int main(int argc, char ** argv)
 {

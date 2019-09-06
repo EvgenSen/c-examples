@@ -15,15 +15,13 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 
-#define SOCK_FILE "./file.sock"
-#define MSG_LEN 256
+#include "conn_info.h"
 
 int main(int argc, char ** argv)
 {
     struct sockaddr_un serv_addr, clnt_addr;
     int sockfd;
     int msglen, recv_bytes;
-    char *msg = "Test msg from client";
     char buf[MSG_LEN];
 
     memset(buf, 0, MSG_LEN);
@@ -35,7 +33,7 @@ int main(int argc, char ** argv)
     }
     /* Необходимо связать сокет с некоторым локальным адресом,
        чтобы сервер имел возможность возвратить посланное сообщение.
-       Этот адрес должен быть уникальным в пределах данной операционной 
+       Этот адрес должен быть уникальным в пределах данной операционной
        системы. Если ответ не планируется это можно пропустить */
     memset(&clnt_addr, 0, sizeof(struct sockaddr_un));
     clnt_addr.sun_family = AF_UNIX;
