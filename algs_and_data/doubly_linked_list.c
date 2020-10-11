@@ -26,6 +26,12 @@ typedef struct list_s {
 	struct list_s * prev;
 } list_t;
 
+enum position_e
+{
+  P_BEGIN = 0,
+  P_END   = 1
+};
+
 
 void print_all_list (list_t * head)
 {
@@ -86,7 +92,7 @@ void destroy_list (list_t * head)
 	}
 }
 
-list_t * insert_at_end (list_t * head, int id, char * name, char * data)
+list_t * insert_data (list_t * head, int id, char * name, char * data, int position)
 {
 	if(!head)
 	{
@@ -96,44 +102,28 @@ list_t * insert_at_end (list_t * head, int id, char * name, char * data)
 	else
 	{
 		list_t * cur = head;
-		while(cur)
+		/* If insert at the end, then go to last element */
+		while( (position == P_END) && cur && cur->next)
 		{
-			if(!cur->next)
-			{
-				list_t * tmp = calloc(1, sizeof(list_t));
-				tmp->next = NULL;
-				tmp->prev = cur;
-				tmp->id = id;
-				strcpy(tmp->name, name);
-				strcpy(tmp->data, data);
-				cur->next = tmp;
-				return head;
-			}
 			cur = cur->next;
 		}
-	}
 
-	printf("Error: %s() failed\n", __FUNCTION__);
-
-	return head;
-}
-
-list_t * insert_at_begin (list_t * head, int id, char * name, char * data)
-{
-	if(!head)
-	{
-		head = init_first(head, id, name, data);
-	}
-	else
-	{
 		list_t * tmp = calloc(1, sizeof(list_t));
-		tmp->prev = NULL;
-		tmp->next = head;
+		tmp->next = (position == P_END) ? NULL : cur;
+		tmp->prev = (position == P_END) ? cur : NULL;
 		tmp->id = id;
 		strcpy(tmp->name, name);
 		strcpy(tmp->data, data);
-		head->prev = tmp;
-		head = tmp;
+
+		if(position == P_END)
+		{
+			cur->next = tmp;
+		}
+		else
+		{
+			head->prev = tmp;
+			head = tmp;
+		}
 	}
 
 	return head;
@@ -204,11 +194,11 @@ int main (int argc, char *argv[])
 {
 	list_t * head = NULL;
 
-	head = insert_at_begin (head, 0, "first_name", "first_data");
-	head = insert_at_end   (head, 1, "second_name", "second_data");
-	head = insert_at_begin (head, 2, "foo", "bar");
-	head = insert_at_end   (head, 3, "foo", "bar");
-	head = insert_at_begin (head, 4, "foo", "bar");
+	head = insert_data (head, 0, "first_name", "first_data", P_BEGIN);
+	head = insert_data (head, 1, "second_name", "second_data", P_END);
+	head = insert_data (head, 2, "foo", "bar", P_BEGIN);
+	head = insert_data (head, 3, "foo", "bar", P_END);
+	head = insert_data (head, 4, "foo", "bar", P_BEGIN);
 	print_all_list (head);
 
 	head = delete_by_id (head, 0);
