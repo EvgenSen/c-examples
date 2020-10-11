@@ -1,5 +1,7 @@
 /*
- * singly_linked_list.c - Simple example of Singly linked list
+ * doubly_linked_list.c - Simple example of Doubly linked list
+ *
+ * `list_t * head` may be global var. This will make the program easier.
  *
  * Author: Evgeniy Sennikov <sennikov.work@ya.ru>
  *
@@ -21,19 +23,26 @@ typedef struct list_s {
 	char   name[MAX_NAME_LEN];
 	char   data[MAX_DATA_LEN];
 	struct list_s * next;
+	struct list_s * prev;
 } list_t;
 
 
 void print_all_list (list_t * head)
 {
 	list_t * cur = head;
+	int i = 0;
 
+	printf(" +--------------------------------\n");
+	printf(" |\n");
 	while(cur)
 	{
-		printf("id: %3d\tname: %s  data: %s\n", cur->id, cur->name, cur->data);
+		printf(" | %02d: %p <-- %p --> %p\n", i, cur->prev, cur, cur->next);
+		printf(" |     [id=%d, name='%s', data='%s']\n", cur->id, cur->name, cur->data);
+		printf(" |\n");
 		cur = cur->next;
+		i++;
 	}
-	printf("\n");
+	printf(" +--------------------------------\n");
 }
 
 list_t * init_first (list_t * head, int id, char * name, char * data)
@@ -44,10 +53,9 @@ list_t * init_first (list_t * head, int id, char * name, char * data)
 		return head;
 	}
 
-	// printf("init list with params (id=%d name=%s data=%s)\n", id, name, data);
-
 	list_t * cur = calloc(1, sizeof(list_t));
 	cur->next = NULL;
+	cur->prev = NULL;
 	cur->id = id;
 	strcpy(cur->name, name);
 	strcpy(cur->data, data);
@@ -55,11 +63,35 @@ list_t * init_first (list_t * head, int id, char * name, char * data)
 	return cur;
 }
 
+void destroy_list (list_t * head)
+{
+	list_t * cur = head;
+	list_t * next = NULL;
+
+	if(!head)
+	{
+		printf("Warn: list already destroyed\n");
+		return;
+	}
+
+	while(cur)
+	{
+		if(cur->next)
+			next = cur->next;
+		else
+			next = NULL;
+
+		free(cur);
+		cur = next;
+	}
+}
+
 list_t * insert_at_end (list_t * head, int id, char * name, char * data)
 {
 	if(!head)
 	{
 		head = init_first(head, id, name, data);
+		return head;
 	}
 	else
 	{
@@ -70,15 +102,18 @@ list_t * insert_at_end (list_t * head, int id, char * name, char * data)
 			{
 				list_t * tmp = calloc(1, sizeof(list_t));
 				tmp->next = NULL;
+				tmp->prev = cur;
 				tmp->id = id;
 				strcpy(tmp->name, name);
 				strcpy(tmp->data, data);
 				cur->next = tmp;
-				break;
+				return head;
 			}
 			cur = cur->next;
 		}
 	}
+
+	printf("Error: %s() failed\n", __FUNCTION__);
 
 	return head;
 }
@@ -92,10 +127,12 @@ list_t * insert_at_begin (list_t * head, int id, char * name, char * data)
 	else
 	{
 		list_t * tmp = calloc(1, sizeof(list_t));
+		tmp->prev = NULL;
 		tmp->next = head;
 		tmp->id = id;
 		strcpy(tmp->name, name);
 		strcpy(tmp->data, data);
+		head->prev = tmp;
 		head = tmp;
 	}
 
@@ -105,28 +142,60 @@ list_t * insert_at_begin (list_t * head, int id, char * name, char * data)
 list_t * delete_by_id (list_t * head, int id)
 {
 	list_t * cur = head;
-	list_t * prev = NULL;
 
 	while(cur)
 	{
 		if(cur->id == id)
 		{
-			if(prev)
+			if(cur->prev && cur->next)
 			{
-				prev->next = cur->next;
+				cur->prev->next = cur->next;
+				cur->next->prev = cur->prev;
 				free(cur);
-				break;
+				return head;
+			}
+			else if(cur->next == NULL && cur->prev != NULL)
+			{
+				/* Remove last elem */
+				cur->prev->next = cur->next;
+				free(cur);
+				return head;
+			}
+			else if(cur->prev == NULL && cur->next != NULL)
+			{
+				/* Remove first elem */
+				head = cur->next;
+				head->prev = NULL;
+				free(cur);
+				return head;
 			}
 			else
-			{
-				head = cur->next;
-				free(cur);
-				break;
-			}
+				printf("Error: elem with NULL prev and next link (id=%d, name='%s', data='%s')\n", cur->id, cur->name, cur->data);
 		}
-		prev = cur;
 		cur = cur->next;
 	}
+
+	printf("Error: elem with id %d not found\n", id);
+
+	return head;
+}
+
+list_t * change_by_id (list_t * head, int id, char * name, char * data)
+{
+	list_t * cur = head;
+
+	while(cur)
+	{
+		if(cur->id == id)
+		{
+			strcpy(cur->name, name);
+			strcpy(cur->data, data);
+			return head;
+		}
+		cur = cur->next;
+	}
+
+	printf("Error: elem with id %d not found\n", id);
 
 	return head;
 }
@@ -150,6 +219,14 @@ int main (int argc, char *argv[])
 
 	head = delete_by_id (head, 4);
 	print_all_list (head);
+
+	head = delete_by_id (head, 123);
+	print_all_list (head);
+
+	head = change_by_id (head, 1, "new_name", "new_data");
+	print_all_list (head);
+
+	destroy_list(head);
 
 	return 0;
 }
