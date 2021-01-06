@@ -7,11 +7,11 @@ export PROJECT_PATH=$(PWD)
 all: $(targets)
 
 $(targets):
-	@echo "\n  $@: make build\n"
+	@echo -e "\n  $@: make build\n"
 	@make -C $@ -f Makefile build
 
 build clean:
 	@for i in $(targets); do \
-		echo "\n  $$i: make $@\n" ; \
+		echo -e "\n  $$i: make $@\n" ; \
 		make -C $$i -f Makefile $@; \
 	done \

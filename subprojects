@@ -1,5 +1,8 @@
-targets = rwd \
+targets = algs_and_data \
+	iface_info \
+	kernel_module \
+	local_socket \
+	rwd \
+	signals \
 	string_parser \
 	time_of_work \
-	kernel_module \
-	iface_info \
