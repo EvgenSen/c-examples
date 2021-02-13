@@ -9,6 +9,10 @@ static struct net_device *dev;
 
 static int network_mod_open(struct net_device *dev)
 {
+	struct net_dev_priv *priv = netdev_priv(dev);
+
+	strcpy(priv->data, "Data from open() func");
+
 	printk(KERN_INFO "%s: Open %s\n", MODULE_NAME, dev->name);
 	/* запуск очереди для передачи данных */
 	netif_start_queue( dev );
@@ -17,7 +21,9 @@ static int network_mod_open(struct net_device *dev)
 
 static int network_mod_close(struct net_device *dev)
 {
-	printk(KERN_INFO "%s: Close %s\n", MODULE_NAME, dev->name);
+	struct net_dev_priv *priv = netdev_priv(dev);
+
+	printk(KERN_INFO "%s: Close %s (Private data: \"%s\")\n", MODULE_NAME, dev->name, priv->data);
 	/* остановка очереди для передачи данных */
 	netif_stop_queue( dev );
 	return 0;
@@ -25,6 +31,18 @@ static int network_mod_close(struct net_device *dev)
 
 static int stub_start_xmit(struct sk_buff *skb, struct net_device *dev)
 {
+
+	// int i=0;
+	// printk(KERN_INFO "%s: TX len=%d data:\n", MODULE_NAME, skb->len);
+	// for (i = 0; i < skb->len; i++)
+	// {
+	// 	printk("%02x ", skb->data[i]);
+	// 	if( (i+1) % 16 == 0 )
+	// 		printk("\n");
+	// }
+	// printk("\n");
+	dev->stats.tx_dropped++;
+
 	dev_kfree_skb( skb );
 	return 0;
 }
@@ -54,9 +72,9 @@ static int __init network_mod_init(void)
 	printk(KERN_INFO "%s: Init\n", MODULE_NAME);
 
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 17, 0))
-	dev = alloc_netdev(0, "dummy%d", network_mod_setup);
+	dev = alloc_netdev(sizeof(struct net_dev_priv), "dummy%d", network_mod_setup);
 #else
-	dev = alloc_netdev(0, "dummy%d", NET_NAME_UNKNOWN, network_mod_setup);
+	dev = alloc_netdev(sizeof(struct net_dev_priv), "dummy%d", NET_NAME_UNKNOWN, network_mod_setup);
 #endif
 
 	if(register_netdev(dev))

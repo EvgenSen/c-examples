@@ -135,6 +135,6 @@ Feb 13 13:42:24 MyPC kernel: [694525.287803] network_mod: Setup
 Feb 13 13:42:24 MyPC kernel: [694525.287929] network_mod: Init dummy0 - Ok
 Feb 13 13:42:24 MyPC kernel: [694525.305719] network_mod: Open dummy0
 Feb 13 13:42:27 MyPC kernel: [694528.315451] network_mod: Exit
-Feb 13 13:42:27 MyPC kernel: [694528.315487] network_mod: Close dummy0
+Feb 13 13:42:27 MyPC kernel: [694528.315487] network_mod: Close dummy0 (Private data: "Data from open() func")
 
 </pre>
