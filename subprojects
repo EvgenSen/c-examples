@@ -5,4 +5,5 @@ targets = algs_and_data \
 	rwd \
 	signals \
 	string_parser \
+	threads \
 	time_of_work \
