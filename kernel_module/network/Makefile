@@ -6,9 +6,7 @@ else
 SUB_PROJECT_PATH=$(PROJECT_PATH)/kernel_module
 endif
 
-obj-m += hello_world/
-obj-m += interaction/
-obj-m += network/
+obj-m += network_mod.o
 
 all: build
 
