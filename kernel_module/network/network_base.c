@@ -3,11 +3,11 @@
 #include <linux/etherdevice.h>
 #include <linux/version.h>
 
-#include "network_mod.h"
+#include "network_base.h"
 
 static struct net_device *dev;
 
-static int network_mod_open(struct net_device *dev)
+static int network_base_open(struct net_device *dev)
 {
 	struct net_dev_priv *priv = netdev_priv(dev);
 
@@ -19,7 +19,7 @@ static int network_mod_open(struct net_device *dev)
 	return 0;
 }
 
-static int network_mod_close(struct net_device *dev)
+static int network_base_close(struct net_device *dev)
 {
 	struct net_dev_priv *priv = netdev_priv(dev);
 
@@ -47,15 +47,15 @@ static int stub_start_xmit(struct sk_buff *skb, struct net_device *dev)
 	return 0;
 }
 
-static struct net_device_ops network_mod_ndo =
+static struct net_device_ops network_base_ndo =
 {
-	.ndo_open = network_mod_open,
-	.ndo_stop = network_mod_close,
+	.ndo_open = network_base_open,
+	.ndo_stop = network_base_close,
 	.ndo_start_xmit = stub_start_xmit,
 	.ndo_set_mac_address = eth_mac_addr,
 };
 
-static void network_mod_setup(struct net_device *dev)
+static void network_base_setup(struct net_device *dev)
 {
 	int i;
 
@@ -64,17 +64,17 @@ static void network_mod_setup(struct net_device *dev)
 	for(i = 0; i < ETH_ALEN; i++)
 		dev->dev_addr[i] = (char) i;
 	ether_setup(dev);
-	dev->netdev_ops = &network_mod_ndo;
+	dev->netdev_ops = &network_base_ndo;
 }
 
-static int __init network_mod_init(void)
+static int __init network_base_init(void)
 {
 	printk(KERN_INFO "%s: Init\n", MODULE_NAME);
 
 #if (LINUX_VERSION_CODE < KERNEL_VERSION(3, 17, 0))
-	dev = alloc_netdev(sizeof(struct net_dev_priv), "dummy%d", network_mod_setup);
+	dev = alloc_netdev(sizeof(struct net_dev_priv), "dummy%d", network_base_setup);
 #else
-	dev = alloc_netdev(sizeof(struct net_dev_priv), "dummy%d", NET_NAME_UNKNOWN, network_mod_setup);
+	dev = alloc_netdev(sizeof(struct net_dev_priv), "dummy%d", NET_NAME_UNKNOWN, network_base_setup);
 #endif
 
 	if(register_netdev(dev))
@@ -87,7 +87,7 @@ static int __init network_mod_init(void)
 	return 0;
 }
 
-static void __exit network_mod_exit(void)
+static void __exit network_base_exit(void)
 {
 	printk(KERN_INFO "%s: Exit\n", MODULE_NAME);
 	unregister_netdev(dev);
@@ -99,5 +99,5 @@ MODULE_AUTHOR("Evgeniy Sennikov <sennikov.work@ya.ru>");
 MODULE_DESCRIPTION("Simple network module");
 MODULE_VERSION("1.0");
 
-module_init(network_mod_init);
-module_exit(network_mod_exit);
+module_init(network_base_init);
+module_exit(network_base_exit);

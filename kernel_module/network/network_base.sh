@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MODULE_NAME="network_mod.ko"
+MODULE_NAME="network_base.ko"
 INTERFACE_NAME="dummy0"
 INTERFACE_IP="192.168.123.123"
 INTERFACE_MAC="06:05:04:03:02:01"

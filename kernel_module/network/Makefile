@@ -6,7 +6,7 @@ else
 SUB_PROJECT_PATH=$(PROJECT_PATH)/kernel_module
 endif
 
-obj-m += network_mod.o
+obj-m += network_base.o
 
 all: build
 

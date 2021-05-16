@@ -3,16 +3,25 @@
 Output example:
 
 <pre>
-evgen@MyPC:~/projects/c-examples/kernel_module$ sudo ./network_mod.sh 
+evgen@MyPC:~/projects/c-examples/kernel_module/network$ make
+make[1]: Вход в каталог `/usr/src/linux-headers-4.4.0-148-generic'
+  CC [M]  /home/evgen/projects/c-examples/kernel_module/network/network_base.o
+  Building modules, stage 2.
+  MODPOST 1 modules
+  CC      /home/evgen/projects/c-examples/kernel_module/network/network_base.mod.o
+  LD [M]  /home/evgen/projects/c-examples/kernel_module/network/network_base.ko
+make[1]: Выход из каталога `/usr/src/linux-headers-4.4.0-148-generic'
+
+evgen@MyPC:~/projects/c-examples/kernel_module/network$ sudo ./network_base.sh
 
   Module info:
 
-filename:       /home/evgen/projects/c-examples/kernel_module/network_mod.ko
+filename:       /home/evgen/projects/c-examples/kernel_module/network/network_base.ko
 version:        1.0
 description:    Simple network module
 author:         Evgeniy Sennikov <sennikov.work@ya.ru>
 license:        GPL
-srcversion:     D0F0F064FE47EA519428073
+srcversion:     A13063E239745459AD350DD
 depends:        
 retpoline:      Y
 vermagic:       4.4.0-148-generic SMP mod_unload modversions 
@@ -60,11 +69,11 @@ Feb 13 13:26:53 MyPC kernel: [693593.917486] usb 3-1.3: usbfs: process 11862 (up
 Feb 13 13:26:53 MyPC kernel: [693594.307975] usb 3-1.3: usbfs: process 11864 (update) did not claim interface 0 before use
 Feb 13 13:26:53 MyPC kernel: [693594.425619] usb 3-1.3: usbfs: process 11864 (update) did not claim interface 0 before use
 Feb 13 13:28:23 MyPC kernel: [693684.479181] usb 3-1.3: USB disconnect, device number 105
-Feb 13 13:42:24 MyPC kernel: [694525.287798] network_mod: Init
-Feb 13 13:42:24 MyPC kernel: [694525.287803] network_mod: Setup
-Feb 13 13:42:24 MyPC kernel: [694525.287929] network_mod: Init dummy0 - Ok
-Feb 13 13:42:24 MyPC kernel: [694525.305719] network_mod: Open dummy0
-Feb 13 13:42:27 MyPC kernel: [694528.315451] network_mod: Exit
-Feb 13 13:42:27 MyPC kernel: [694528.315487] network_mod: Close dummy0 (Private data: "Data from open() func")
+Feb 13 13:42:24 MyPC kernel: [694525.287798] network_base: Init
+Feb 13 13:42:24 MyPC kernel: [694525.287803] network_base: Setup
+Feb 13 13:42:24 MyPC kernel: [694525.287929] network_base: Init dummy0 - Ok
+Feb 13 13:42:24 MyPC kernel: [694525.305719] network_base: Open dummy0
+Feb 13 13:42:27 MyPC kernel: [694528.315451] network_base: Exit
+Feb 13 13:42:27 MyPC kernel: [694528.315487] network_base: Close dummy0 (Private data: "Data from open() func")
 
 </pre>
