@@ -17,7 +17,7 @@ evgen@MyPC:~/projects/c-examples/kernel_module/network$ sudo ./network_base.sh
   Module info:
 
 filename:       /home/evgen/projects/c-examples/kernel_module/network/network_base.ko
-version:        1.0
+version:        1.1
 description:    Simple network module
 author:         Evgeniy Sennikov <sennikov.work@ya.ru>
 license:        GPL
