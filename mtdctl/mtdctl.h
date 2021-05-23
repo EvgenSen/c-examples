@@ -9,7 +9,8 @@
 #ifndef MTDCTL_H
 #define MTDCTL_H
 
-#define BUFF_SIZE 2048
+#define PAGE_SIZE 2048
+#define BUFF_SIZE PAGE_SIZE
 
 enum action_e
 {
