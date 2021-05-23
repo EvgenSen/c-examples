@@ -2,7 +2,7 @@ targets = algs_and_data \
 	iface_info \
 	kernel_module \
 	local_socket \
-	rwd \
+	mtdctl \
 	signals \
 	string_parser \
 	threads \

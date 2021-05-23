@@ -2,8 +2,10 @@
 
 all: build
 
+APP = mtdctl
+
 build:
-	@gcc rwd.c -o rwd
+	@gcc $(APP).c -o $(APP)
 
 clean:
-	@rm rwd
+	@rm $(APP)
