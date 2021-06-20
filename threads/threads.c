@@ -16,6 +16,7 @@
 #include <unistd.h> 
 #include <time.h>
 #include <pthread.h>
+#include <sys/prctl.h>
 
 #define THREAD_COUNT 10  // Общее количество потоков (рабочих добывающих золото)
 #define ZOLOTO_ONE   20  // Количество золота, добываемое за раз
@@ -29,6 +30,11 @@ void thread_main(void * arg)
 	// преобразуем входные аргументы
 	int local_id = * (int *) arg;
 	int sleep_us = 0;
+	char thread_name[32] = {0};
+
+	sprintf(thread_name, "Unit %d", local_id);
+	// Задаем имя текущего потока
+	prctl(PR_SET_NAME, thread_name, 0, 0, 0);
 
 	srand(time(NULL) + local_id * 2 );
 
@@ -56,6 +62,8 @@ void thread_main(void * arg)
 		// printf("%2d sleep_us = %d\n", local_id + 1, sleep);
 		usleep(sleep_us);
 	}
+
+	sleep(100); // чтобы поток дольше висел и можно было посмотреть в списке процессов
 }
 
 int main(int argc, char ** argv)
@@ -71,7 +79,18 @@ int main(int argc, char ** argv)
 	{
 		id[i] = i;
 		// создаем потоки и передаем его ID в качестве аргумента
-		pthread_create(&thread_id[i], NULL, (void *)&thread_main, &id[i]);
+		if( pthread_create(&thread_id[i], NULL, (void *)&thread_main, &id[i]) != 0 )
+		{
+			perror("Could not create pthread");
+			continue;
+		}
+#if 0
+		// задаем имя дочернего потока из родительского
+		if ( pthread_setname_np(thread_id[i], "Unit X") != 0 )
+		{
+			perror("Could not set pthread name");
+		}
+#endif
 	}
 
 	for(i=0; i<THREAD_COUNT; i++)
