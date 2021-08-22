@@ -12,15 +12,27 @@
  *
  * ARRAY_SIZE = 10000; MAX_VALUE = 100
  *   Primitive sort: Array sorted, time: 234414.744529 ms
- *   Bubble sort:    Array sorted, time: 277.357845 ms
- *   Quick sort:     Array sorted, time: 1.570150 ms
- *   Std qsort:      Array sorted, time: 0.821792 ms
+ *   Bubble sort:    Array sorted, time:    281.302257 ms
+ *   Selection sort: Array sorted, time:    120.147067 ms
+ *   Counting sort:  Array sorted, time:      0.65758 ms
+ *   Quick sort:     Array sorted, time:      1.580200 ms
+ *   Std qsort:      Array sorted, time:      0.836910 ms
+ *
+ * ARRAY_SIZE = 100000; MAX_VALUE = 1000
+ *   Primitive sort: -
+ *   Bubble sort:    Array sorted, time:  31906.52692 ms
+ *   Selection sort: Array sorted, time:  11945.905633 ms
+ *   Counting sort:  Array sorted, time:      0.658875 ms
+ *   Quick sort:     Array sorted, time:     18.306670 ms
+ *   Std qsort:      Array sorted, time:     10.363365 ms
  *
  * ARRAY_SIZE = 100000; MAX_VALUE = 100000
  *   Primitive sort: -
- *   Bubble sort:    Array sorted, time: 31368.231846 ms
- *   Quick sort:     Array sorted, time: 13.296424 ms
- *   Std qsort:      Array sorted, time: 11.697078 ms
+ *   Bubble sort:    Array sorted, time:  32069.260408 ms
+ *   Selection sort: Array sorted, time:  30672.943908 ms
+ *   Counting sort:  Array sorted, time:      1.704168 ms
+ *   Quick sort:     Array sorted, time:     13.429785 ms
+ *   Std qsort:      Array sorted, time:     12.207991 ms
  */
 
 #include <stdio.h>
@@ -200,6 +212,70 @@ void do_bubble_sort (int * arr, int arr_size)
 	}
 }
 
+/** Sort array by selection sort
+ *
+ * @param    arr           - pointer to array
+ *           arr_size      - array size
+ *
+ * @return   no returns
+ */
+void do_select_sort (int * arr, int arr_size)
+{
+	int i, j, min;
+
+	for (j = 0; j < arr_size - 1; j++)
+	{
+		for (i = j + 1; i < arr_size; i++)
+		{
+			if(arr[i] < arr[j])
+			{
+				swap(&arr[i], &arr[j]);
+			}
+		}
+	}
+}
+
+/** Sort array by counting sort
+ *
+ * @param    arr           - pointer to array
+ *           arr_size      - array size
+ *
+ * @return   no returns
+ */
+void do_count_sort (int * arr, int arr_size)
+{
+	int i, j, max = 0;
+	int * array_spectrum = NULL;
+
+	/* Find max value */
+	for (j = 0; j < arr_size - 1; j++)
+	{
+		if(arr[j] > max)
+			max = arr[j];
+	}
+
+	/* Create array spectrum */
+	array_spectrum = (int*) calloc(max+1, sizeof(int));
+	for (j = 0; j < arr_size; j++)
+	{
+		array_spectrum[arr[j]]++;
+	}
+
+	/* Fill array with sorted elements based on a spectrum */
+	i = 0;
+	for (j = 0; j < max+1; j++)
+	{
+		while(array_spectrum[j] > 0)
+		{
+			arr[i] = j;
+			i++;
+			array_spectrum[j]--;
+		}
+	}
+
+	free(array_spectrum);
+}
+
 /** Wrapper for use quick_sort_recursive with test_sort
  *
  * @param    arr           - pointer to array
@@ -272,7 +348,7 @@ int test_sort (int * arr, int arr_size, void (*sort_func)(int *, int))
 	ms = (delta_timespec) / 1000000;
 	fr = (delta_timespec) % 1000000;
 
-	printf("Array %s, time: %lu.%lu ms\n", sorted ? "sorted" : "failed", ms, fr);
+	printf("Array %s, time: %6lu.%lu ms\n", sorted ? "sorted" : "failed", ms, fr);
 
 	return sorted;
 }
@@ -292,6 +368,12 @@ int main (int argc, char *argv[])
 
 	printf("Bubble sort:    ");
 	test_sort(arr, ARRAY_SIZE, do_bubble_sort);
+
+	printf("Selection sort: ");
+	test_sort(arr, ARRAY_SIZE, do_select_sort);
+
+	printf("Counting sort:  ");
+	test_sort(arr, ARRAY_SIZE, do_count_sort);
 
 	printf("Quick sort:     ");
 	test_sort(arr, ARRAY_SIZE, do_quick_sort);
