@@ -36,7 +36,7 @@ void print_time_diff_timespec (struct timespec st, struct timespec end)
     unsigned long ap = (delta_timespec) % 1000000;
 
     //printf("Spent time 2 (timespec): %llu ns\n", delta_timespec);
-    printf("Spent time 2 (timespec): %lu.%lu ms\n", ms, ap);
+    printf("Spent time 2 (timespec): %lu.%06lu ms\n", ms, ap);
 }
 
 int main (int argc, char *argv[])
