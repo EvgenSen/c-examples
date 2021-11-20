@@ -14,13 +14,13 @@
  *   Primitive sort: Array sorted, time: 234414.744529 ms
  *   Bubble sort:    Array sorted, time:    281.302257 ms
  *   Selection sort: Array sorted, time:    120.147067 ms
- *   Counting sort:  Array sorted, time:      0.65758 ms
+ *   Counting sort:  Array sorted, time:      0.065758 ms
  *   Quick sort:     Array sorted, time:      1.580200 ms
  *   Std qsort:      Array sorted, time:      0.836910 ms
  *
  * ARRAY_SIZE = 100000; MAX_VALUE = 1000
  *   Primitive sort: -
- *   Bubble sort:    Array sorted, time:  31906.52692 ms
+ *   Bubble sort:    Array sorted, time:  31906.052692 ms
  *   Selection sort: Array sorted, time:  11945.905633 ms
  *   Counting sort:  Array sorted, time:      0.658875 ms
  *   Quick sort:     Array sorted, time:     18.306670 ms
@@ -348,7 +348,7 @@ int test_sort (int * arr, int arr_size, void (*sort_func)(int *, int))
 	ms = (delta_timespec) / 1000000;
 	fr = (delta_timespec) % 1000000;
 
-	printf("Array %s, time: %6lu.%lu ms\n", sorted ? "sorted" : "failed", ms, fr);
+	printf("Array %s, time: %6lu.%06lu ms\n", sorted ? "sorted" : "failed", ms, fr);
 
 	return sorted;
 }
