@@ -3,6 +3,7 @@ targets = algs_and_data \
 	kernel_module \
 	local_socket \
 	mtdctl \
+	processes \
 	signals \
 	string_parser \
 	threads \
