@@ -3,7 +3,7 @@
 all: build
 
 build:
-	@gcc threads.c -pthread -o threads
+	@gcc threads_and_mutex.c -pthread -o threads_and_mutex
 
 clean:
-	@rm threads
+	@rm threads_and_mutex

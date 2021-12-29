@@ -1,8 +1,8 @@
-## threads
+## threads_and_mutex
 
 <pre>
-evgen@MyPC:~/projects/c-examples/threads$ ps -eL | grep -e Unit -e threads
-17549 17549 pts/0    00:00:00 threads
+evgen@MyPC:~/projects/c-examples/threads$ ps -eL | grep -e Unit -e threads_and_mutex
+17549 17549 pts/0    00:00:00 threads_and_mutex
 17549 17550 pts/0    00:00:00 Unit 0
 17549 17551 pts/0    00:00:00 Unit 1
 17549 17552 pts/0    00:00:00 Unit 2
