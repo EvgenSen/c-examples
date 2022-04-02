@@ -1,4 +1,5 @@
 targets = algs_and_data \
+	file_operations \
 	iface_info \
 	kernel_module \
 	local_socket \
