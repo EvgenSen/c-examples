@@ -1,6 +1,8 @@
 /*
  * singly_linked_list.c - Simple example of Singly linked list
  *
+ * `list_t * head` may be global var. This will make the program easier.
+ *
  * Author: Evgeniy Sennikov <sennikov.work@ya.ru>
  *
  * Licence: GPLv3
@@ -30,73 +32,45 @@ void print_all_list (list_t * head)
 
 	while(cur)
 	{
-		printf("id: %3d\tname: %s  data: %s\n", cur->id, cur->name, cur->data);
+		printf("id: %2d, name: %-12s, data: %s\n", cur->id, cur->name, cur->data);
 		cur = cur->next;
 	}
 	printf("\n");
 }
 
-list_t * init_first (list_t * head, int id, char * name, char * data)
+list_t * insert_at_begin (list_t * head, int id, char * name, char * data)
 {
-	if(head)
-	{
-		printf("Warn: list already inited\n");
-		return head;
-	}
+	list_t * new = calloc(1, sizeof(list_t));
+	new->next = head;
+	new->id = id;
+	strcpy(new->name, name);
+	strcpy(new->data, data);
+	head = new;
 
-	// printf("init list with params (id=%d name=%s data=%s)\n", id, name, data);
-
-	list_t * cur = calloc(1, sizeof(list_t));
-	cur->next = NULL;
-	cur->id = id;
-	strcpy(cur->name, name);
-	strcpy(cur->data, data);
-
-	return cur;
+	return head;
 }
 
 list_t * insert_at_end (list_t * head, int id, char * name, char * data)
 {
 	if(!head)
 	{
-		head = init_first(head, id, name, data);
+		return (head = insert_at_begin(head, id, name, data));
 	}
-	else
+
+	list_t * cur = head;
+	while(cur)
 	{
-		list_t * cur = head;
-		while(cur)
+		if(!cur->next)
 		{
-			if(!cur->next)
-			{
-				list_t * tmp = calloc(1, sizeof(list_t));
-				tmp->next = NULL;
-				tmp->id = id;
-				strcpy(tmp->name, name);
-				strcpy(tmp->data, data);
-				cur->next = tmp;
-				break;
-			}
-			cur = cur->next;
+			list_t * new = calloc(1, sizeof(list_t));
+			new->next = NULL;
+			new->id = id;
+			strcpy(new->name, name);
+			strcpy(new->data, data);
+			cur->next = new;
+			break;
 		}
-	}
-
-	return head;
-}
-
-list_t * insert_at_begin (list_t * head, int id, char * name, char * data)
-{
-	if(!head)
-	{
-		head = init_first(head, id, name, data);
-	}
-	else
-	{
-		list_t * tmp = calloc(1, sizeof(list_t));
-		tmp->next = head;
-		tmp->id = id;
-		strcpy(tmp->name, name);
-		strcpy(tmp->data, data);
-		head = tmp;
+		cur = cur->next;
 	}
 
 	return head;
@@ -131,6 +105,24 @@ list_t * delete_by_id (list_t * head, int id)
 	return head;
 }
 
+list_t * delete_all (list_t * head)
+{
+	list_t * cur = head;
+	list_t * rm = NULL;
+
+	while(cur)
+	{
+		rm = cur;
+		cur = cur->next;
+		free(rm);
+		rm = NULL;
+	}
+
+	head = NULL;
+
+	return head;
+}
+
 int main (int argc, char *argv[])
 {
 	list_t * head = NULL;
@@ -150,6 +142,8 @@ int main (int argc, char *argv[])
 
 	head = delete_by_id (head, 4);
 	print_all_list (head);
+
+	delete_all(head);
 
 	return 0;
 }

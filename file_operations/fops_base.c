@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/unistd.h>
 #include <time.h>
 
 #define FILE_NAME "tmp_file.txt"
@@ -25,7 +26,7 @@ int readFileLineByLineStaticBuffer(char * filename)
 
 	if ((f = fopen(filename, "r")) == NULL)
 	{
-		perror("Could not open file \"%s\"");
+		perror("Could not open file");
 		return -1;
 	}
 
@@ -87,7 +88,7 @@ int readFileLineByLineDynamicBuffer(char * filename)
 
 	if ((f = fopen(filename, "r")) == NULL)
 	{
-		perror("Could not open file \"%s\"");
+		perror("Could not open file");
 		return -1;
 	}
 
@@ -118,7 +119,7 @@ static int getParamValue(char * filename, char * param_name, char * param_value)
 
 	if ((f = fopen(filename, "r")) == NULL)
 	{
-		perror("Could not open file \"%s\"");
+		perror("Could not open file");
 		return -1;
 	}
 
@@ -170,7 +171,7 @@ int writeDataToFile(char * filename)
 
 	if ((f = fopen(filename, "w")) == NULL)
 	{
-		perror("Could not open file \"%s\"");
+		perror("Could not open file");
 		return -1;
 	}
 

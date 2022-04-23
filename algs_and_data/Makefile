@@ -1,5 +1,7 @@
 .PHONY: all build clean
 
+CFLAGS += -Wall -Wextra -Werror
+
 all: build
 
 build:
