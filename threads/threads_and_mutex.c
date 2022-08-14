@@ -17,6 +17,8 @@
 #include <time.h>
 #include <pthread.h>
 #include <sys/prctl.h>
+#include <sys/types.h>
+#include <sys/syscall.h>
 
 #define THREAD_COUNT 10  // Общее количество потоков (рабочих добывающих золото)
 #define ZOLOTO_ONE   20  // Количество золота, добываемое за раз
@@ -48,7 +50,7 @@ void thread_main(void * arg)
 			// На добычу золота юнит тратит от 20 до 40 мс
 			sleep_us = rand()%20000+20000;
 			usleep(sleep_us);
-			printf("%2d Юнит забрал золото, потратив %d мкс. В шахте осталось: %d\n", local_id + 1, sleep_us, zoloto);
+			printf("[pid = %d, tid = %ld] %2d Юнит забрал золото, потратив %d мкс. В шахте осталось: %d\n", getpid(), syscall(__NR_gettid), local_id + 1, sleep_us, zoloto);
 		}
 		else
 		{
