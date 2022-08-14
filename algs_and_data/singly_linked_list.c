@@ -32,7 +32,7 @@ void print_all_list (list_t * head)
 
 	while(cur)
 	{
-		printf("id: %2d, name: %-12s, data: %s\n", cur->id, cur->name, cur->data);
+		printf("prt=%p, id: %2d, name: %-12s, data: %s\n", cur, cur->id, cur->name, cur->data);
 		cur = cur->next;
 	}
 	printf("\n");
@@ -123,6 +123,28 @@ list_t * delete_all (list_t * head)
 	return head;
 }
 
+list_t * reverse_list (list_t * head)
+{
+	list_t * prev = NULL;
+	list_t * cur  = head;
+	list_t * next = NULL;
+
+	if(head == NULL)
+	{
+		return NULL;
+	}
+
+	while(cur)
+	{
+		next = cur->next;
+		cur->next = prev;
+		prev = cur;
+		cur = next;
+	}
+
+	return head = prev;
+}
+
 int main (int argc, char *argv[])
 {
 	list_t * head = NULL;
@@ -132,6 +154,9 @@ int main (int argc, char *argv[])
 	head = insert_at_begin (head, 2, "foo", "bar");
 	head = insert_at_end   (head, 3, "foo", "bar");
 	head = insert_at_begin (head, 4, "foo", "bar");
+	print_all_list (head);
+
+	head = reverse_list (head);
 	print_all_list (head);
 
 	head = delete_by_id (head, 0);
