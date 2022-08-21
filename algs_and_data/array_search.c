@@ -31,9 +31,10 @@
 
 #define CONST_MILLION 1000000
 
-enum sort_flag_e {
-	SORT_NO_NEEDED  = 0,
-	SORT_NEEDED     = 1,
+enum sort_flag_e
+{
+	SORT_NO_NEEDED = 0,
+	SORT_NEEDED    = 1,
 };
 
 /** Fill array with random values
@@ -43,7 +44,7 @@ enum sort_flag_e {
  *
  * @return   no returns
  */
-void fill_array (int * arr, int arr_size)
+void fill_array(int *arr, int arr_size)
 {
 	int i;
 
@@ -60,7 +61,7 @@ void fill_array (int * arr, int arr_size)
  *
  * @return   no returns
  */
-void print_array (int * arr, int arr_size)
+void print_array(int *arr, int arr_size)
 {
 	int i;
 
@@ -81,13 +82,13 @@ void print_array (int * arr, int arr_size)
  * @return  -1  - element not found
  *           i  - index of target element
  */
-int do_linear_search (int * arr, int arr_size, int val)
+int do_linear_search(int *arr, int arr_size, int val)
 {
 	int i = 0;
 
 	for (i = 0; i < (arr_size - 1); i++)
 	{
-		if(arr[i] == val)
+		if (arr[i] == val)
 		{
 			return i;
 		}
@@ -106,15 +107,15 @@ int do_linear_search (int * arr, int arr_size, int val)
  * @return  -1  - element not found
  *           i  - index of target element
  */
-int binary_search_recursive (int * arr, int left, int right, int value)
+int binary_search_recursive(int *arr, int left, int right, int value)
 {
 	int pivot = (left + right) / 2;
 
-	if(arr[pivot] == value)
+	if (arr[pivot] == value)
 		return pivot;
-	else if((arr[pivot] < value) && ((right - left) > 1))
+	else if ((arr[pivot] < value) && ((right - left) > 1))
 		return binary_search_recursive(arr, pivot, right, value);
-	else if((arr[pivot] > value) && ((right - left) > 1))
+	else if ((arr[pivot] > value) && ((right - left) > 1))
 		return binary_search_recursive(arr, left, pivot, value);
 	else
 		return -1;
@@ -128,12 +129,12 @@ int binary_search_recursive (int * arr, int left, int right, int value)
  *
  * @return   no returns
  */
-int do_binary_search (int * arr, int arr_size, int val)
+int do_binary_search(int *arr, int arr_size, int val)
 {
 	return binary_search_recursive(arr, 0, arr_size, val);
 }
 
-int qsort_cmp (const int *a, const int *b)
+int qsort_cmp(const int *a, const int *b)
 {
 	return *a - *b;
 }
@@ -150,29 +151,29 @@ int qsort_cmp (const int *a, const int *b)
  * @return  -1  - Error
  *           i  - index of target element
  */
-int test_search (int * arr, int arr_size, int value, int need_sort, int (*search_func)(int *, int, int))
+int test_search(int *arr, int arr_size, int value, int need_sort, int (*search_func)(int *, int, int))
 {
-	int index = -1;
-	struct timespec ts_st, ts_end;
+	int                index = -1;
+	struct timespec    ts_st, ts_end;
 	unsigned long long delta_timespec;
-	unsigned long search_ms = 0, sort_ms = 0, summary_ms = 0;
-	unsigned long search_fr = 0, sort_fr = 0, summary_fr = 0;
+	unsigned long      search_ms = 0, sort_ms = 0, summary_ms = 0;
+	unsigned long      search_fr = 0, sort_fr = 0, summary_fr = 0;
 
-	if(arr == NULL || arr_size == 0 || search_func == NULL)
+	if (arr == NULL || arr_size == 0 || search_func == NULL)
 	{
 		fprintf(stderr, "%s(): incorrect input args (%p/%d/%p)\n", __FUNCTION__, arr, arr_size, search_func);
 		return -1;
 	}
 
-	if(need_sort)
+	if (need_sort)
 	{
 		clock_gettime(CLOCK_MONOTONIC, &ts_st);
-		qsort(arr, ARRAY_SIZE, sizeof (int), (int(*) (const void *, const void *)) qsort_cmp);
+		qsort(arr, ARRAY_SIZE, sizeof(int), (int (*)(const void *, const void *))qsort_cmp);
 		clock_gettime(CLOCK_MONOTONIC, &ts_end);
 
 		delta_timespec = 1000000000ULL * (ts_end.tv_sec - ts_st.tv_sec) + (ts_end.tv_nsec - ts_st.tv_nsec);
-		sort_ms = (delta_timespec) / CONST_MILLION;
-		sort_fr = (delta_timespec) % CONST_MILLION;
+		sort_ms        = (delta_timespec) / CONST_MILLION;
+		sort_fr        = (delta_timespec) % CONST_MILLION;
 	}
 
 	clock_gettime(CLOCK_MONOTONIC, &ts_st);
@@ -180,38 +181,40 @@ int test_search (int * arr, int arr_size, int value, int need_sort, int (*search
 	clock_gettime(CLOCK_MONOTONIC, &ts_end);
 
 	delta_timespec = 1000000000ULL * (ts_end.tv_sec - ts_st.tv_sec) + (ts_end.tv_nsec - ts_st.tv_nsec);
-	search_ms = (delta_timespec) / CONST_MILLION;
-	search_fr = (delta_timespec) % CONST_MILLION;
+	search_ms      = (delta_timespec) / CONST_MILLION;
+	search_fr      = (delta_timespec) % CONST_MILLION;
 
 	summary_ms = sort_ms + search_ms;
 	summary_fr = sort_fr + search_fr;
 
-	if(summary_fr >= CONST_MILLION )
+	if (summary_fr >= CONST_MILLION)
 	{
 		summary_fr -= CONST_MILLION;
 		summary_ms++;
 	}
 
+	// clang-format off
 	printf("       %s        |        %s        | %6lu.%06lu |      %6lu.%06lu |\n",
 	       index >= 0 ? "+" : "-",
 	       index >= 0 ? (arr[index] == value ? "+" : "-") : "-",
 	       search_ms, search_fr, summary_ms, summary_fr);
+	// clang-format on
 
 	return index;
 }
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
 	/* stack size is limited, need to use heap */
 	// int arr[ARRAY_SIZE] = {0, };
-	int * arr = (int *) calloc(ARRAY_SIZE, sizeof(int));
-	int value = -1;
-	struct timespec ts_st, ts_end;
+	int *              arr   = (int *)calloc(ARRAY_SIZE, sizeof(int));
+	int                value = -1;
+	struct timespec    ts_st, ts_end;
 	unsigned long long delta_timespec;
-	unsigned long ms;
-	unsigned long fr;
+	unsigned long      ms;
+	unsigned long      fr;
 
-	srand ( time(NULL) );
+	srand(time(NULL));
 
 	fill_array(arr, ARRAY_SIZE);
 

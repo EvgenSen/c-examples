@@ -2,7 +2,7 @@ include subprojects
 
 export PROJECT_PATH=$(PWD)
 
-.PHONY: all build clean $(targets)
+.PHONY: all build clean code_style $(targets)
 
 all: $(targets)
 
@@ -14,4 +14,9 @@ build clean:
 	@for i in $(targets); do \
 		echo -e "\n  $$i: make $@\n" ; \
 		make -C $$i -f Makefile $@; \
+	done \
+
+code_style:
+	@for i in $(targets); do \
+		clang-format-10 $$i/*.[ch] -i --verbose --Werror ; \
 	done \
