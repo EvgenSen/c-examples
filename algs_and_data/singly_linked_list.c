@@ -13,24 +13,22 @@
 #include <string.h>
 #include <unistd.h>
 
-
 #define MAX_NAME_LEN 32
 #define MAX_DATA_LEN 256
 
-
-typedef struct list_s {
-	int    id;
-	char   name[MAX_NAME_LEN];
-	char   data[MAX_DATA_LEN];
-	struct list_s * next;
+typedef struct list_s
+{
+	int            id;
+	char           name[MAX_NAME_LEN];
+	char           data[MAX_DATA_LEN];
+	struct list_s *next;
 } list_t;
 
-
-void print_all_list (list_t * head)
+void print_all_list(list_t *head)
 {
-	list_t * cur = head;
+	list_t *cur = head;
 
-	while(cur)
+	while (cur)
 	{
 		printf("prt=%p, id: %2d, name: %-12s, data: %s\n", cur, cur->id, cur->name, cur->data);
 		cur = cur->next;
@@ -38,11 +36,11 @@ void print_all_list (list_t * head)
 	printf("\n");
 }
 
-list_t * insert_at_begin (list_t * head, int id, char * name, char * data)
+list_t *insert_at_begin(list_t *head, int id, char *name, char *data)
 {
-	list_t * new = calloc(1, sizeof(list_t));
-	new->next = head;
-	new->id = id;
+	list_t *new = calloc(1, sizeof(list_t));
+	new->next   = head;
+	new->id     = id;
 	strcpy(new->name, name);
 	strcpy(new->data, data);
 	head = new;
@@ -50,21 +48,21 @@ list_t * insert_at_begin (list_t * head, int id, char * name, char * data)
 	return head;
 }
 
-list_t * insert_at_end (list_t * head, int id, char * name, char * data)
+list_t *insert_at_end(list_t *head, int id, char *name, char *data)
 {
-	if(!head)
+	if (!head)
 	{
 		return (head = insert_at_begin(head, id, name, data));
 	}
 
-	list_t * cur = head;
-	while(cur)
+	list_t *cur = head;
+	while (cur)
 	{
-		if(!cur->next)
+		if (!cur->next)
 		{
-			list_t * new = calloc(1, sizeof(list_t));
-			new->next = NULL;
-			new->id = id;
+			list_t *new = calloc(1, sizeof(list_t));
+			new->next   = NULL;
+			new->id     = id;
 			strcpy(new->name, name);
 			strcpy(new->data, data);
 			cur->next = new;
@@ -76,16 +74,16 @@ list_t * insert_at_end (list_t * head, int id, char * name, char * data)
 	return head;
 }
 
-list_t * delete_by_id (list_t * head, int id)
+list_t *delete_by_id(list_t *head, int id)
 {
-	list_t * cur = head;
-	list_t * prev = NULL;
+	list_t *cur  = head;
+	list_t *prev = NULL;
 
-	while(cur)
+	while (cur)
 	{
-		if(cur->id == id)
+		if (cur->id == id)
 		{
-			if(prev)
+			if (prev)
 			{
 				prev->next = cur->next;
 				free(cur);
@@ -99,20 +97,20 @@ list_t * delete_by_id (list_t * head, int id)
 			}
 		}
 		prev = cur;
-		cur = cur->next;
+		cur  = cur->next;
 	}
 
 	return head;
 }
 
-list_t * delete_all (list_t * head)
+list_t *delete_all(list_t *head)
 {
-	list_t * cur = head;
-	list_t * rm = NULL;
+	list_t *cur = head;
+	list_t *rm  = NULL;
 
-	while(cur)
+	while (cur)
 	{
-		rm = cur;
+		rm  = cur;
 		cur = cur->next;
 		free(rm);
 		rm = NULL;
@@ -123,50 +121,50 @@ list_t * delete_all (list_t * head)
 	return head;
 }
 
-list_t * reverse_list (list_t * head)
+list_t *reverse_list(list_t *head)
 {
-	list_t * prev = NULL;
-	list_t * cur  = head;
-	list_t * next = NULL;
+	list_t *prev = NULL;
+	list_t *cur  = head;
+	list_t *next = NULL;
 
-	if(head == NULL)
+	if (head == NULL)
 	{
 		return NULL;
 	}
 
-	while(cur)
+	while (cur)
 	{
-		next = cur->next;
+		next      = cur->next;
 		cur->next = prev;
-		prev = cur;
-		cur = next;
+		prev      = cur;
+		cur       = next;
 	}
 
 	return head = prev;
 }
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	list_t * head = NULL;
+	list_t *head = NULL;
 
-	head = insert_at_begin (head, 0, "first_name", "first_data");
-	head = insert_at_end   (head, 1, "second_name", "second_data");
-	head = insert_at_begin (head, 2, "foo", "bar");
-	head = insert_at_end   (head, 3, "foo", "bar");
-	head = insert_at_begin (head, 4, "foo", "bar");
-	print_all_list (head);
+	head = insert_at_begin(head, 0, "first_name", "first_data");
+	head = insert_at_end(head, 1, "second_name", "second_data");
+	head = insert_at_begin(head, 2, "foo", "bar");
+	head = insert_at_end(head, 3, "foo", "bar");
+	head = insert_at_begin(head, 4, "foo", "bar");
+	print_all_list(head);
 
-	head = reverse_list (head);
-	print_all_list (head);
+	head = reverse_list(head);
+	print_all_list(head);
 
-	head = delete_by_id (head, 0);
-	print_all_list (head);
+	head = delete_by_id(head, 0);
+	print_all_list(head);
 
-	head = delete_by_id (head, 3);
-	print_all_list (head);
+	head = delete_by_id(head, 3);
+	print_all_list(head);
 
-	head = delete_by_id (head, 4);
-	print_all_list (head);
+	head = delete_by_id(head, 4);
+	print_all_list(head);
 
 	delete_all(head);
 

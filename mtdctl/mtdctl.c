@@ -24,7 +24,7 @@
 
 FILE *log_file;
 
-#define print_dbg(...) fprintf (log_file, __VA_ARGS__)
+#define print_dbg(...) fprintf(log_file, __VA_ARGS__)
 
 /** Fill buffer with random values
  *
@@ -33,7 +33,7 @@ FILE *log_file;
  *
  * @return     no returns
  */
-void fill_buffer (unsigned char * buffer, size_t buffer_len)
+void fill_buffer(unsigned char *buffer, size_t buffer_len)
 {
 	int i;
 
@@ -52,16 +52,16 @@ void fill_buffer (unsigned char * buffer, size_t buffer_len)
  *
  * @return     no returns
  */
-void print_data (int offset, int print_nice, unsigned char * buffer, size_t buffer_len)
+void print_data(int offset, int print_nice, unsigned char *buffer, size_t buffer_len)
 {
 	int i = 0;
 
-	if(print_nice)
+	if (print_nice)
 	{
 		for (i = 0; i < buffer_len; i++)
 		{
-			if( i % 16 == 0 )
-				print_dbg("\n0x%08x:", (unsigned int) (offset + i));
+			if (i % 16 == 0)
+				print_dbg("\n0x%08x:", (unsigned int)(offset + i));
 			print_dbg(" %02x", buffer[i]);
 		}
 		print_dbg("\n");
@@ -82,19 +82,19 @@ void print_data (int offset, int print_nice, unsigned char * buffer, size_t buff
  * @return     on success, the number of bytes read
  *             on error, negative error code
  */
-int mtd_block_read (int offset, const char * mtd_name, unsigned char * buffer, size_t buffer_len)
+int mtd_block_read(int offset, const char *mtd_name, unsigned char *buffer, size_t buffer_len)
 {
-	size_t sz = 0;
-	int mtd = open(mtd_name, O_RDWR);
+	size_t sz  = 0;
+	int    mtd = open(mtd_name, O_RDWR);
 
-	if(mtd <= 0)
+	if (mtd <= 0)
 	{
 		perror("Can't open MTD block device");
 		return -1;
 	}
 
 	lseek(mtd, offset, SEEK_SET);
-	if((sz = read(mtd, buffer, buffer_len) ) < 0)
+	if ((sz = read(mtd, buffer, buffer_len)) < 0)
 	{
 		perror("Can't read from MTD block device");
 		close(mtd);
@@ -102,7 +102,7 @@ int mtd_block_read (int offset, const char * mtd_name, unsigned char * buffer, s
 	}
 	else
 	{
-		;//print_dbg("Successful read %zu bytes from addr %#010x on %s\n", sz, offset, mtd_name);
+		; // print_dbg("Successful read %zu bytes from addr %#010x on %s\n", sz, offset, mtd_name);
 	}
 
 	close(mtd);
@@ -119,10 +119,10 @@ int mtd_block_read (int offset, const char * mtd_name, unsigned char * buffer, s
  * @return     on success, the number of bytes written
  *             on error, negative error code
  */
-int mtd_block_write (int offset, const char * mtd_name, const unsigned char * buffer, size_t buffer_len)
+int mtd_block_write(int offset, const char *mtd_name, const unsigned char *buffer, size_t buffer_len)
 {
-	size_t sz = 0;
-	int mtd = open(mtd_name, O_RDWR);
+	size_t sz  = 0;
+	int    mtd = open(mtd_name, O_RDWR);
 
 	// if(!strcmp(mtd_name, "/dev/mtdblock0"))
 	// {
@@ -130,14 +130,14 @@ int mtd_block_write (int offset, const char * mtd_name, const unsigned char * bu
 	// 	return -3;
 	// }
 
-	if(mtd <= 0)
+	if (mtd <= 0)
 	{
 		perror("Can't open MTD block device");
 		return -1;
 	}
 
 	lseek(mtd, offset, SEEK_SET);
-	if((sz = write(mtd, buffer, buffer_len) ) < 0)
+	if ((sz = write(mtd, buffer, buffer_len)) < 0)
 	{
 		perror("Can't write to MTD block device");
 		close(mtd);
@@ -145,7 +145,7 @@ int mtd_block_write (int offset, const char * mtd_name, const unsigned char * bu
 	}
 	else
 	{
-		;//print_dbg("Successful write %zu bytes to addr %#010x on %s\n", sz, offset, mtd_name);
+		; // print_dbg("Successful write %zu bytes to addr %#010x on %s\n", sz, offset, mtd_name);
 	}
 
 	fsync(mtd);
@@ -160,12 +160,12 @@ int mtd_block_write (int offset, const char * mtd_name, const unsigned char * bu
  * @return     on success, 0
  *             on error, negative error code
  */
-int mtd_char_get_info (const char * mtd_name)
+int mtd_char_get_info(const char *mtd_name)
 {
 	mtd_info_t mtd_info;
-	int mtd = open(mtd_name, O_RDWR);
+	int        mtd = open(mtd_name, O_RDWR);
 
-	if(mtd <= 0)
+	if (mtd <= 0)
 	{
 		perror("Can't open MTD char device");
 		return -1;
@@ -199,12 +199,12 @@ int mtd_char_get_info (const char * mtd_name)
  * @return     on success, the number of bytes read
  *             on error, negative error code
  */
-int mtd_char_read (int offset, const char * mtd_name, unsigned char * buffer, size_t buffer_len)
+int mtd_char_read(int offset, const char *mtd_name, unsigned char *buffer, size_t buffer_len)
 {
 	mtd_info_t mtd_info;
-	int mtd = open(mtd_name, O_RDWR);
+	int        mtd = open(mtd_name, O_RDWR);
 
-	if(mtd <= 0)
+	if (mtd <= 0)
 	{
 		perror("Can't open MTD char device");
 		return -1;
@@ -218,9 +218,7 @@ int mtd_char_read (int offset, const char * mtd_name, unsigned char * buffer, si
 	}
 
 	/* Make sure device page sizes are valid */
-	if (mtd_info.oobsize != 64 &&
-	    mtd_info.oobsize != 16 &&
-	    mtd_info.oobsize != 8  )
+	if (mtd_info.oobsize != 64 && mtd_info.oobsize != 16 && mtd_info.oobsize != 8)
 	{
 		fprintf(stderr, "Unknown flash (not normal NAND)\n");
 		close(mtd);
@@ -236,7 +234,7 @@ int mtd_char_read (int offset, const char * mtd_name, unsigned char * buffer, si
 	}
 	else
 	{
-		;//print_dbg("Successful read %zu bytes from addr %#010x on %s\n", sz, offset, mtd_name);
+		; // print_dbg("Successful read %zu bytes from addr %#010x on %s\n", sz, offset, mtd_name);
 	}
 
 	close(mtd);
@@ -322,14 +320,14 @@ int mtd_char_write (int offset, const char * mtd_name, const unsigned char * buf
  * @return     on success, 0
  *             on error, error count
  */
-int do_action_test (int offset, const char * mtd_name, int page_cnt)
+int do_action_test(int offset, const char *mtd_name, int page_cnt)
 {
-	int i = 0;
-	int err = 0;
-	unsigned char read_buffer[BUFF_SIZE] = {0};
+	int           i                       = 0;
+	int           err                     = 0;
+	unsigned char read_buffer[BUFF_SIZE]  = {0};
 	unsigned char write_buffer[BUFF_SIZE] = {0};
 
-	for (i=0; i<page_cnt; i++)
+	for (i = 0; i < page_cnt; i++)
 	{
 		// int j;
 
@@ -339,9 +337,9 @@ int do_action_test (int offset, const char * mtd_name, int page_cnt)
 		mtd_block_write(offset, mtd_name, write_buffer, BUFF_SIZE);
 		mtd_block_read(offset, mtd_name, read_buffer, BUFF_SIZE);
 
-		if(memcmp(write_buffer, read_buffer, BUFF_SIZE) == 0)
+		if (memcmp(write_buffer, read_buffer, BUFF_SIZE) == 0)
 		{
-			;//print_dbg("Offset 0x%x OK\n", offset);
+			; // print_dbg("Offset 0x%x OK\n", offset);
 		}
 		else
 		{
@@ -396,22 +394,22 @@ static void usage(const char *app_name)
 
 int main(int argc, char *argv[])
 {
-	int opt;
-	int act = ACT_NONE;
-	int offset = 0;
-	int count = 1;
-	int i = 0;
-	int ret;
-	int print_nice = 0;
-	const char *file_name = NULL;
-	const char *mtd_name = NULL;
-	const char *user_str = NULL;
+	int           opt;
+	int           act    = ACT_NONE;
+	int           offset = 0;
+	int           count  = 1;
+	int           i      = 0;
+	int           ret;
+	int           print_nice        = 0;
+	const char *  file_name         = NULL;
+	const char *  mtd_name          = NULL;
+	const char *  user_str          = NULL;
 	unsigned char buffer[BUFF_SIZE] = {0};
 
 	log_file = stderr;
 
 	/* Check args count */
-	if(argc == 1)
+	if (argc == 1)
 	{
 		fprintf(stderr, "Error: no args\n");
 		usage(argv[0]);
@@ -505,7 +503,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if(mtd_name == NULL)
+	if (mtd_name == NULL)
 	{
 		fprintf(stderr, "Error: empty MTD device name\n");
 		usage(argv[0]);
@@ -518,7 +516,7 @@ int main(int argc, char *argv[])
 	switch (act)
 	{
 	case ACT_READ:
-		if(strstr(mtd_name, "block") != NULL)
+		if (strstr(mtd_name, "block") != NULL)
 		{
 			ret = mtd_block_read(offset, mtd_name, buffer, BUFF_SIZE);
 		}
@@ -527,21 +525,21 @@ int main(int argc, char *argv[])
 			ret = mtd_char_read(offset, mtd_name, buffer, BUFF_SIZE);
 		}
 
-		if(ret > 0)
+		if (ret > 0)
 		{
 			print_data(offset, print_nice, buffer, BUFF_SIZE);
 		}
 		break;
 	case ACT_WRITE:
-		if(user_str == NULL)
+		if (user_str == NULL)
 		{
 			fprintf(stderr, "Error: empty string for write\n");
 			usage(argv[0]);
 			exit(1);
 		}
-		if(strstr(mtd_name, "block") != NULL)
+		if (strstr(mtd_name, "block") != NULL)
 		{
-			ret = mtd_block_write(offset, mtd_name, (unsigned char *) user_str, strlen(user_str));
+			ret = mtd_block_write(offset, mtd_name, (unsigned char *)user_str, strlen(user_str));
 		}
 		// else
 		// {
@@ -552,10 +550,10 @@ int main(int argc, char *argv[])
 		mtd_char_get_info(mtd_name);
 		break;
 	case ACT_TEST:
-		for (i=0; i<count; i++)
+		for (i = 0; i < count; i++)
 		{
 			print_dbg("%d/%d: Start test iteration\n", i, count);
-			do_action_test(offset, mtd_name, 16*64 /* 16 blocks of 64 pages */);
+			do_action_test(offset, mtd_name, 16 * 64 /* 16 blocks of 64 pages */);
 		}
 		break;
 	default:
@@ -564,7 +562,7 @@ int main(int argc, char *argv[])
 		exit(1);
 	}
 
-	if(log_file && log_file != stderr)
+	if (log_file && log_file != stderr)
 	{
 		fclose((FILE *)log_file);
 		log_file = NULL;

@@ -51,7 +51,7 @@
  *
  * @return   no returns
  */
-void fill_array (int * arr, int arr_size)
+void fill_array(int *arr, int arr_size)
 {
 	int i;
 
@@ -68,7 +68,7 @@ void fill_array (int * arr, int arr_size)
  *
  * @return   no returns
  */
-void print_array (int * arr, int arr_size)
+void print_array(int *arr, int arr_size)
 {
 	int i;
 
@@ -88,13 +88,13 @@ void print_array (int * arr, int arr_size)
  * @return   1  - True, sorted
  *           0  - False, not sorted
  */
-int check_array_sort (int * arr, int arr_size)
+int check_array_sort(int *arr, int arr_size)
 {
 	int i;
 
 	for (i = 0; i < (arr_size - 1); i++)
 	{
-		if(arr[i] > arr[i+1])
+		if (arr[i] > arr[i + 1])
 		{
 			return 0;
 		}
@@ -110,11 +110,11 @@ int check_array_sort (int * arr, int arr_size)
  *
  * @return   no returns
  */
-void swap (int * a, int * b)
+void swap(int *a, int *b)
 {
 	int tmp = *a;
-	*a = *b;
-	*b = tmp;
+	*a      = *b;
+	*b      = tmp;
 }
 
 /** Sort array by self-written quicksort
@@ -125,41 +125,40 @@ void swap (int * a, int * b)
  *
  * @return   no returns
  */
-void quick_sort_recursive (int *arr, int first, int last)
+void quick_sort_recursive(int *arr, int first, int last)
 {
-	int pivot = first;    // Первый элемент сортируемого блока выбираем как опорный
-	int left = first + 1; // Левая граница - второй элемент
-	int right = last;     // Правая граница - последний элемент
+	int pivot = first;     // Первый элемент сортируемого блока выбираем как опорный
+	int left  = first + 1; // Левая граница - второй элемент
+	int right = last;      // Правая граница - последний элемент
 
-	while(1)
+	while (1)
 	{
-		while((arr[right] >= arr[pivot]) && (first < right))
+		while ((arr[right] >= arr[pivot]) && (first < right))
 			right--;
 
-		while((arr[left] <= arr[pivot]) && (left < last))
+		while ((arr[left] <= arr[pivot]) && (left < last))
 			left++;
 
-		if(left>=right)
+		if (left >= right)
 			break;
 
 		swap(&arr[left], &arr[right]);
 	}
 
-	if(arr[right] < arr[pivot])
+	if (arr[right] < arr[pivot])
 		swap(&arr[pivot], &arr[right]);
 
 	pivot = right;
 
 	/* если левый блок имеет больше 1 элемента, сортируем его */
-	if(first < pivot - 1)
+	if (first < pivot - 1)
 		quick_sort_recursive(arr, first, pivot - 1);
 	/* если правый блок имеет больше 1 элемента, сортируем его */
-	if(pivot + 1 < last)
+	if (pivot + 1 < last)
 		quick_sort_recursive(arr, pivot + 1, last);
-
 }
 
-int qsort_cmp (const int *a, const int *b)
+int qsort_cmp(const int *a, const int *b)
 {
 	return *a - *b;
 }
@@ -171,15 +170,15 @@ int qsort_cmp (const int *a, const int *b)
  *
  * @return   no returns
  */
-void do_primitive_sort (int * arr, int arr_size)
+void do_primitive_sort(int *arr, int arr_size)
 {
 	int i = 0;
 
 	while (i < (arr_size - 1))
 	{
-		if(arr[i] > arr[i+1])
+		if (arr[i] > arr[i + 1])
 		{
-			swap(&arr[i], &arr[i+1]);
+			swap(&arr[i], &arr[i + 1]);
 			i = 0;
 		}
 		else
@@ -196,7 +195,7 @@ void do_primitive_sort (int * arr, int arr_size)
  *
  * @return   no returns
  */
-void do_bubble_sort (int * arr, int arr_size)
+void do_bubble_sort(int *arr, int arr_size)
 {
 	int i, j;
 
@@ -204,9 +203,9 @@ void do_bubble_sort (int * arr, int arr_size)
 	{
 		for (i = 0; i < (arr_size - j); i++)
 		{
-			if(arr[i] > arr[i+1])
+			if (arr[i] > arr[i + 1])
 			{
-				swap(&arr[i], &arr[i+1]);
+				swap(&arr[i], &arr[i + 1]);
 			}
 		}
 	}
@@ -219,7 +218,7 @@ void do_bubble_sort (int * arr, int arr_size)
  *
  * @return   no returns
  */
-void do_select_sort (int * arr, int arr_size)
+void do_select_sort(int *arr, int arr_size)
 {
 	int i, j, min;
 
@@ -227,7 +226,7 @@ void do_select_sort (int * arr, int arr_size)
 	{
 		for (i = j + 1; i < arr_size; i++)
 		{
-			if(arr[i] < arr[j])
+			if (arr[i] < arr[j])
 			{
 				swap(&arr[i], &arr[j]);
 			}
@@ -242,20 +241,20 @@ void do_select_sort (int * arr, int arr_size)
  *
  * @return   no returns
  */
-void do_count_sort (int * arr, int arr_size)
+void do_count_sort(int *arr, int arr_size)
 {
-	int i, j, max = 0;
-	int * array_spectrum = NULL;
+	int  i, j, max = 0;
+	int *array_spectrum = NULL;
 
 	/* Find max value */
 	for (j = 0; j < arr_size - 1; j++)
 	{
-		if(arr[j] > max)
+		if (arr[j] > max)
 			max = arr[j];
 	}
 
 	/* Create array spectrum */
-	array_spectrum = (int*) calloc(max+1, sizeof(int));
+	array_spectrum = (int *)calloc(max + 1, sizeof(int));
 	for (j = 0; j < arr_size; j++)
 	{
 		array_spectrum[arr[j]]++;
@@ -263,9 +262,9 @@ void do_count_sort (int * arr, int arr_size)
 
 	/* Fill array with sorted elements based on a spectrum */
 	i = 0;
-	for (j = 0; j < max+1; j++)
+	for (j = 0; j < max + 1; j++)
 	{
-		while(array_spectrum[j] > 0)
+		while (array_spectrum[j] > 0)
 		{
 			arr[i] = j;
 			i++;
@@ -283,7 +282,7 @@ void do_count_sort (int * arr, int arr_size)
  *
  * @return   no returns
  */
-void do_quick_sort (int * arr, int arr_size)
+void do_quick_sort(int *arr, int arr_size)
 {
 	quick_sort_recursive(arr, 0, arr_size - 1);
 }
@@ -295,9 +294,9 @@ void do_quick_sort (int * arr, int arr_size)
  *
  * @return   no returns
  */
-void do_std_qsort (int * arr, int arr_size)
+void do_std_qsort(int *arr, int arr_size)
 {
-	qsort(arr, arr_size, sizeof (int), (int(*) (const void *, const void *)) qsort_cmp);
+	qsort(arr, arr_size, sizeof(int), (int (*)(const void *, const void *))qsort_cmp);
 }
 
 /** Function gets array and function for sorting. Makes a local copy
@@ -311,23 +310,23 @@ void do_std_qsort (int * arr, int arr_size)
  *           0  - Array not sorted
  *           1  - Array sorted
  */
-int test_sort (int * arr, int arr_size, void (*sort_func)(int *, int))
+int test_sort(int *arr, int arr_size, void (*sort_func)(int *, int))
 {
-	int * tmp_arr = NULL;
-	int sorted = 0;
-	struct timespec ts_st, ts_end;
+	int *              tmp_arr = NULL;
+	int                sorted  = 0;
+	struct timespec    ts_st, ts_end;
 	unsigned long long delta_timespec;
-	unsigned long ms;
-	unsigned long fr;
+	unsigned long      ms;
+	unsigned long      fr;
 
-	if(arr == NULL || arr_size == 0 || sort_func == NULL)
+	if (arr == NULL || arr_size == 0 || sort_func == NULL)
 	{
 		fprintf(stderr, "%s(): incorrect input args (%p/%d/%p)\n", __FUNCTION__, arr, arr_size, sort_func);
 		return -1;
 	}
 
-	tmp_arr = (int *) malloc( arr_size * sizeof(int) );
-	if(tmp_arr == NULL)
+	tmp_arr = (int *)malloc(arr_size * sizeof(int));
+	if (tmp_arr == NULL)
 	{
 		fprintf(stderr, "%s(): malloc failed\n", __FUNCTION__);
 		return -1;
@@ -345,19 +344,19 @@ int test_sort (int * arr, int arr_size, void (*sort_func)(int *, int))
 	free(tmp_arr);
 
 	delta_timespec = 1000000000ULL * (ts_end.tv_sec - ts_st.tv_sec) + (ts_end.tv_nsec - ts_st.tv_nsec);
-	ms = (delta_timespec) / 1000000;
-	fr = (delta_timespec) % 1000000;
+	ms             = (delta_timespec) / 1000000;
+	fr             = (delta_timespec) % 1000000;
 
 	printf("Array %s, time: %6lu.%06lu ms\n", sorted ? "sorted" : "failed", ms, fr);
 
 	return sorted;
 }
 
-int main (int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-	int arr[ARRAY_SIZE] = {0, };
+	int arr[ARRAY_SIZE] = {0};
 
-	srand ( time(NULL) );
+	srand(time(NULL));
 
 	fill_array(arr, ARRAY_SIZE);
 
