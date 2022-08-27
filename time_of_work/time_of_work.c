@@ -40,7 +40,7 @@ void print_time_diff_timespec(struct timespec st, struct timespec end)
 	printf("Spent time 2 (timespec): %lu.%06lu ms\n", ms, ap);
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 	struct timeval  st_timeval, end_timeval;
 	clock_t         st_clock, end_clock;
@@ -54,9 +54,9 @@ int main(int argc, char *argv[])
 	clock_gettime(TEST_CLOCK_ID, &st_timespec);
 
 #if 0
-    // sleep don't work with clock
-    sleep(1);      // 1 c
-    usleep(63000); // 63 мс
+	// sleep don't work with clock
+	sleep(1);      // 1 c
+	usleep(63000); // 63 мс
 #else
 	int i = 0, j = 0;
 	for (i = 0; i < 1000000; i++)

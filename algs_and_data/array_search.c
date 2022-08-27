@@ -203,16 +203,12 @@ int test_search(int *arr, int arr_size, int value, int need_sort, int (*search_f
 	return index;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 	/* stack size is limited, need to use heap */
 	// int arr[ARRAY_SIZE] = {0, };
 	int *              arr   = (int *)calloc(ARRAY_SIZE, sizeof(int));
 	int                value = -1;
-	struct timespec    ts_st, ts_end;
-	unsigned long long delta_timespec;
-	unsigned long      ms;
-	unsigned long      fr;
 
 	srand(time(NULL));
 

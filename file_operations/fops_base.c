@@ -210,7 +210,7 @@ void print_time_diff_timespec(struct timespec st, struct timespec end)
 	printf("Spent time: %lu.%06lu ms\n", ms, ap);
 }
 
-int main(int argc, const char *argv[])
+int main()
 {
 	char            param_value[256] = {0};
 	struct timespec st_timespec, end_timespec;

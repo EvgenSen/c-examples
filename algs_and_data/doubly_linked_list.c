@@ -189,7 +189,7 @@ list_t *change_by_id(list_t *head, int id, char *name, char *data)
 	return head;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 	list_t *head = NULL;
 

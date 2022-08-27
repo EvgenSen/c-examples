@@ -17,7 +17,7 @@
 
 #include "conn_info.h"
 
-int main(int argc, char **argv)
+int main()
 {
 	struct sockaddr_un serv_addr, clnt_addr;
 	int                sockfd;

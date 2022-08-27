@@ -33,7 +33,7 @@ FILE *log_file;
  *
  * @return     no returns
  */
-void fill_buffer(unsigned char *buffer, size_t buffer_len)
+void fill_buffer(unsigned char *buffer, ssize_t buffer_len)
 {
 	int i;
 
@@ -52,7 +52,7 @@ void fill_buffer(unsigned char *buffer, size_t buffer_len)
  *
  * @return     no returns
  */
-void print_data(int offset, int print_nice, unsigned char *buffer, size_t buffer_len)
+void print_data(int offset, int print_nice, unsigned char *buffer, ssize_t buffer_len)
 {
 	int i = 0;
 
@@ -84,8 +84,8 @@ void print_data(int offset, int print_nice, unsigned char *buffer, size_t buffer
  */
 int mtd_block_read(int offset, const char *mtd_name, unsigned char *buffer, size_t buffer_len)
 {
-	size_t sz  = 0;
-	int    mtd = open(mtd_name, O_RDWR);
+	ssize_t sz  = 0;
+	int     mtd = open(mtd_name, O_RDWR);
 
 	if (mtd <= 0)
 	{
@@ -121,8 +121,8 @@ int mtd_block_read(int offset, const char *mtd_name, unsigned char *buffer, size
  */
 int mtd_block_write(int offset, const char *mtd_name, const unsigned char *buffer, size_t buffer_len)
 {
-	size_t sz  = 0;
-	int    mtd = open(mtd_name, O_RDWR);
+	ssize_t sz  = 0;
+	int     mtd = open(mtd_name, O_RDWR);
 
 	// if(!strcmp(mtd_name, "/dev/mtdblock0"))
 	// {
@@ -199,7 +199,7 @@ int mtd_char_get_info(const char *mtd_name)
  * @return     on success, the number of bytes read
  *             on error, negative error code
  */
-int mtd_char_read(int offset, const char *mtd_name, unsigned char *buffer, size_t buffer_len)
+int mtd_char_read(int offset, const char *mtd_name, unsigned char *buffer, ssize_t buffer_len)
 {
 	mtd_info_t mtd_info;
 	int        mtd = open(mtd_name, O_RDWR);
@@ -401,7 +401,7 @@ int main(int argc, char *argv[])
 	int           i      = 0;
 	int           ret;
 	int           print_nice        = 0;
-	const char *  file_name         = NULL;
+	// const char *  file_name         = NULL;
 	const char *  mtd_name          = NULL;
 	const char *  user_str          = NULL;
 	unsigned char buffer[BUFF_SIZE] = {0};
@@ -417,7 +417,7 @@ int main(int argc, char *argv[])
 	}
 
 	/* Parsing args */
-	while ((opt = getopt(argc, argv, "rwito:m:v:d:s:c:p")) != -1)
+	while ((opt = getopt(argc, argv, "rwito:m:v:s:c:p")) != -1)
 	{
 		switch (opt)
 		{
@@ -476,9 +476,9 @@ int main(int argc, char *argv[])
 				exit(1);
 			}
 			break;
-		case 'd':
-			file_name = optarg;
-			break;
+		// case 'd':
+		// 	file_name = optarg;
+		// 	break;
 		case 's':
 			user_str = optarg;
 			break;

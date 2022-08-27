@@ -33,7 +33,7 @@
 
 // clang-format on
 
-int main(int argc, char **argv)
+int main()
 {
 	pid_t  pid;
 	sem_t *sem;

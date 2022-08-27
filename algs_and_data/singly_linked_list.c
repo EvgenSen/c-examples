@@ -143,7 +143,7 @@ list_t *reverse_list(list_t *head)
 	return head = prev;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 	list_t *head = NULL;
 

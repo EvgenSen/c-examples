@@ -5,7 +5,7 @@ CFLAGS += -Wall -Wextra -Werror
 all: build
 
 build:
-	@gcc iface.c -o iface
+	@gcc $(CFLAGS) iface.c -o iface
 
 clean:
 	@rm iface

@@ -5,7 +5,7 @@ CFLAGS += -Wall -Wextra -Werror
 all: build
 
 build:
-	@gcc signals.c -o signals
+	@gcc $(CFLAGS) signals.c -o signals
 
 clean:
 	@rm signals

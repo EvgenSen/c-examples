@@ -28,7 +28,7 @@ void get_sigterm(int signum)
 	printf("%s(): Recv signal %d\n", __FUNCTION__, signum);
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 	/* Вариант 1 (устаревший) - signal() */
 	/* Добавляем обработчик сигнала SIGUSR1.

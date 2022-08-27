@@ -5,8 +5,8 @@ CFLAGS += -Wall -Wextra -Werror
 all: build
 
 build:
-	@gcc client_dgram.c -o client_dgram
-	@gcc server_dgram.c -o server_dgram
+	@gcc $(CFLAGS) client_dgram.c -o client_dgram
+	@gcc $(CFLAGS) server_dgram.c -o server_dgram
 
 clean:
 	@rm client_dgram

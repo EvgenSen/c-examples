@@ -72,7 +72,6 @@ int get_iface_state(char *if_name)
 int get_iface_ip(char *if_name, struct sockaddr_in *sin)
 {
 	int          fd;
-	char *       ip;
 	struct ifreq pIfr;
 
 	memset(&pIfr, 0, sizeof(pIfr));
@@ -104,7 +103,6 @@ int get_iface_ip(char *if_name, struct sockaddr_in *sin)
 int get_iface_mask(char *if_name, struct sockaddr_in *sin)
 {
 	int          fd;
-	char *       ip;
 	struct ifreq pIfr;
 
 	memset(&pIfr, 0, sizeof(pIfr));
@@ -129,7 +127,7 @@ int get_iface_mask(char *if_name, struct sockaddr_in *sin)
 	return 0;
 }
 
-int main(int argc, const char *argv[])
+int main()
 {
 	int          i;
 	struct ifreq pIfr;

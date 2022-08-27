@@ -220,7 +220,7 @@ void do_bubble_sort(int *arr, int arr_size)
  */
 void do_select_sort(int *arr, int arr_size)
 {
-	int i, j, min;
+	int i, j;
 
 	for (j = 0; j < arr_size - 1; j++)
 	{
@@ -352,7 +352,7 @@ int test_sort(int *arr, int arr_size, void (*sort_func)(int *, int))
 	return sorted;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 	int arr[ARRAY_SIZE] = {0};
 

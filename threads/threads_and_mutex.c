@@ -87,7 +87,7 @@ void thread_main(void *arg)
 	}
 }
 
-int main(int argc, char **argv)
+int main()
 {
 	int                i;
 	pthread_t          thread_id[THREAD_COUNT];

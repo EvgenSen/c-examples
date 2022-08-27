@@ -5,7 +5,7 @@ CFLAGS += -Wall -Wextra -Werror
 all: build
 
 build:
-	@gcc string_parser.c -o string_parser
+	@gcc $(CFLAGS) string_parser.c -o string_parser
 
 clean:
 	@rm string_parser

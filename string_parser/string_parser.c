@@ -81,7 +81,7 @@ void split_string_to_words(char *p)
 	}
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 	char buffer[MAX_BUF_SIZE] = {0};
 

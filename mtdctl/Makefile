@@ -7,7 +7,7 @@ all: build
 APP = mtdctl
 
 build:
-	@gcc $(APP).c -o $(APP)
+	@gcc $(CFLAGS) $(APP).c -o $(APP)
 
 clean:
 	@rm $(APP)
