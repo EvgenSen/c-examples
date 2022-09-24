@@ -2,12 +2,8 @@
 
 CFLAGS += -Wall -Wextra -Werror -g3 -rdynamic
 
-all: build
-
+all:   build_with_diff_opt
 build: build_with_diff_opt
-	@gcc $(CFLAGS) backtrace.c -pthread -o backtrace
-	@gcc $(CFLAGS) array_sort.c -o array_sort
-
 build_with_diff_opt:
 	@gcc array_sort.c -o array_sort_no_flags
 	@cp array_sort_no_flags array_sort_no_flags_strip && strip array_sort_no_flags_strip

@@ -1,1 +1,0 @@
-../algs_and_data/array_sort.c

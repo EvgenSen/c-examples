@@ -14,29 +14,28 @@ int foo(int depth);
 int bar(int depth);
 
 /* https://www.gnu.org/software/libc/manual/html_node/Backtraces.html */
-void print_backtrace (void)
+void print_backtrace(void)
 {
-	void *array[10];
+	void * array[10];
 	char **strings;
-	int size, i;
+	int    size, i;
 
-	size = backtrace (array, 10);
-	strings = backtrace_symbols (array, size);
+	size    = backtrace(array, 10);
+	strings = backtrace_symbols(array, size);
 	if (strings != NULL)
 	{
-
-	printf ("\nObtained %d stack frames.\n", size);
-	for (i = 0; i < size; i++)
-		printf ("%s\n", strings[i]);
+		printf("\nObtained %d stack frames.\n", size);
+		for (i = 0; i < size; i++)
+			printf("%s\n", strings[i]);
 	}
-	printf ("\n");
+	printf("\n");
 
-	free (strings);
+	free(strings);
 }
 
 int foo(int depth)
 {
-	if(depth > 0)
+	if (depth > 0)
 		return bar(--depth);
 
 	printf("%s: depth = %d\n", __FUNCTION__, depth);
@@ -46,7 +45,7 @@ int foo(int depth)
 
 int bar(int depth)
 {
-	if(depth > 0)
+	if (depth > 0)
 		return foo(--depth);
 
 	printf("%s: depth = %d\n", __FUNCTION__, depth);

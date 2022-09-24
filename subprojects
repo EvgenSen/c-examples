@@ -1,4 +1,7 @@
 targets = algs_and_data \
+	debug/backtrace \
+	debug/callgrind \
+	debug/gcc_opt \
 	file_operations \
 	iface_info \
 	kernel_module \
