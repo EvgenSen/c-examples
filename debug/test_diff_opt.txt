@@ -1,0 +1,243 @@
+$ ./gcc_opt.sh
+
+Start test apps with different optimization
+
+
+Check array_sort_g1
+Bubble sort:    Array sorted, time:  38225.585809 ms
+Selection sort: Array sorted, time:  31293.845013 ms
+Counting sort:  Array sorted, time:      1.879086 ms
+Quick sort:     Array sorted, time:     12.709703 ms
+Std qsort:      Array sorted, time:     11.923510 ms
+
+real    1m9,550s
+user    1m9,411s
+sys 0m0,040s
+
+
+Check array_sort_g1_strip
+Bubble sort:    Array sorted, time:  38203.278075 ms
+Selection sort: Array sorted, time:  30729.694580 ms
+Counting sort:  Array sorted, time:      1.860975 ms
+Quick sort:     Array sorted, time:     12.935655 ms
+Std qsort:      Array sorted, time:     12.253612 ms
+
+real    1m8,964s
+user    1m8,861s
+sys 0m0,024s
+
+
+Check array_sort_g2
+Bubble sort:    Array sorted, time:  38209.717841 ms
+Selection sort: Array sorted, time:  30564.271223 ms
+Counting sort:  Array sorted, time:      1.682270 ms
+Quick sort:     Array sorted, time:     12.628078 ms
+Std qsort:      Array sorted, time:     11.888772 ms
+
+real    1m8,804s
+user    1m8,731s
+sys 0m0,016s
+
+
+Check array_sort_g2_strip
+Bubble sort:    Array sorted, time:  38200.681071 ms
+Selection sort: Array sorted, time:  30676.882779 ms
+Counting sort:  Array sorted, time:      1.661317 ms
+Quick sort:     Array sorted, time:     12.903557 ms
+Std qsort:      Array sorted, time:     12.837072 ms
+
+real    1m8,922s
+user    1m8,838s
+sys 0m0,008s
+
+
+Check array_sort_g3
+Bubble sort:    Array sorted, time:  38371.561471 ms
+Selection sort: Array sorted, time:  30502.927983 ms
+Counting sort:  Array sorted, time:      1.885694 ms
+Quick sort:     Array sorted, time:     12.956309 ms
+Std qsort:      Array sorted, time:     12.261868 ms
+
+real    1m8,914s
+user    1m8,841s
+sys 0m0,008s
+
+
+Check array_sort_g3_strip
+Bubble sort:    Array sorted, time:  38028.370923 ms
+Selection sort: Array sorted, time:  30988.148869 ms
+Counting sort:  Array sorted, time:      2.208940 ms
+Quick sort:     Array sorted, time:     13.360351 ms
+Std qsort:      Array sorted, time:     13.661409 ms
+
+real    1m9,080s
+user    1m8,954s
+sys 0m0,016s
+
+
+Check array_sort_no_flags
+Bubble sort:    Array sorted, time:  38398.431033 ms
+Selection sort: Array sorted, time:  30936.352673 ms
+Counting sort:  Array sorted, time:      1.650322 ms
+Quick sort:     Array sorted, time:     12.602024 ms
+Std qsort:      Array sorted, time:     12.893659 ms
+
+real    1m9,397s
+user    1m9,250s
+sys 0m0,028s
+
+
+Check array_sort_no_flags_strip
+Bubble sort:    Array sorted, time:  38738.028405 ms
+Selection sort: Array sorted, time:  31308.854017 ms
+Counting sort:  Array sorted, time:      1.889915 ms
+Quick sort:     Array sorted, time:     12.509455 ms
+Std qsort:      Array sorted, time:     11.772196 ms
+
+real    1m10,105s
+user    1m9,906s
+sys 0m0,020s
+
+
+Check array_sort_O0
+Bubble sort:    Array sorted, time:  38242.845562 ms
+Selection sort: Array sorted, time:  31199.586363 ms
+Counting sort:  Array sorted, time:      1.744724 ms
+Quick sort:     Array sorted, time:     12.926620 ms
+Std qsort:      Array sorted, time:     12.126391 ms
+
+real    1m9,483s
+user    1m9,313s
+sys 0m0,008s
+
+
+Check array_sort_O0_strip
+Bubble sort:    Array sorted, time:  38457.713498 ms
+Selection sort: Array sorted, time:  31452.655306 ms
+Counting sort:  Array sorted, time:      1.812401 ms
+Quick sort:     Array sorted, time:     12.631626 ms
+Std qsort:      Array sorted, time:     12.513122 ms
+
+real    1m9,942s
+user    1m9,656s
+sys 0m0,024s
+
+
+Check array_sort_O1
+Bubble sort:    Array sorted, time:  13326.451734 ms
+Selection sort: Array sorted, time:  14005.735391 ms
+Counting sort:  Array sorted, time:      0.986744 ms
+Quick sort:     Array sorted, time:      6.640057 ms
+Std qsort:      Array sorted, time:      9.068651 ms
+
+real    0m27,352s
+user    0m27,319s
+sys 0m0,008s
+
+
+Check array_sort_O1_strip
+Bubble sort:    Array sorted, time:  13384.665114 ms
+Selection sort: Array sorted, time:  14110.348653 ms
+Counting sort:  Array sorted, time:      1.654093 ms
+Quick sort:     Array sorted, time:     10.406611 ms
+Std qsort:      Array sorted, time:     11.179724 ms
+
+real    0m27,521s
+user    0m27,484s
+sys 0m0,004s
+
+
+Check array_sort_O2
+Bubble sort:    Array sorted, time:  13554.420131 ms
+Selection sort: Array sorted, time:  13957.570502 ms
+Counting sort:  Array sorted, time:      0.955600 ms
+Quick sort:     Array sorted, time:      6.300930 ms
+Std qsort:      Array sorted, time:      9.063343 ms
+
+real    0m27,535s
+user    0m27,454s
+sys 0m0,004s
+
+
+Check array_sort_O2_strip
+Bubble sort:    Array sorted, time:  12937.239980 ms
+Selection sort: Array sorted, time:  13645.789870 ms
+Counting sort:  Array sorted, time:      0.972437 ms
+Quick sort:     Array sorted, time:      7.557187 ms
+Std qsort:      Array sorted, time:      8.747333 ms
+
+real    0m26,622s
+user    0m26,547s
+sys 0m0,008s
+
+
+Check array_sort_O3
+Bubble sort:    Array sorted, time:  12899.408506 ms
+Selection sort: Array sorted, time:  12474.652297 ms
+Counting sort:  Array sorted, time:      0.922800 ms
+Quick sort:     Array sorted, time:      6.384089 ms
+Std qsort:      Array sorted, time:      8.467582 ms
+
+real    0m25,415s
+user    0m25,376s
+sys 0m0,004s
+
+
+Check array_sort_O3_strip
+Bubble sort:    Array sorted, time:  12908.819343 ms
+Selection sort: Array sorted, time:  12546.513307 ms
+Counting sort:  Array sorted, time:      0.919937 ms
+Quick sort:     Array sorted, time:      6.533515 ms
+Std qsort:      Array sorted, time:      9.089281 ms
+
+real    0m25,514s
+user    0m25,456s
+sys 0m0,004s
+
+
+Check array_sort_Ofast
+Bubble sort:    Array sorted, time:  12919.743845 ms
+Selection sort: Array sorted, time:  12399.363643 ms
+Counting sort:  Array sorted, time:      0.904984 ms
+Quick sort:     Array sorted, time:      6.542039 ms
+Std qsort:      Array sorted, time:      9.112052 ms
+
+real    0m25,338s
+user    0m25,325s
+sys 0m0,000s
+
+
+Check array_sort_Ofast_strip
+Bubble sort:    Array sorted, time:  12927.784671 ms
+Selection sort: Array sorted, time:  12429.032537 ms
+Counting sort:  Array sorted, time:      0.903596 ms
+Quick sort:     Array sorted, time:      6.453440 ms
+Std qsort:      Array sorted, time:      9.153229 ms
+
+real    0m25,390s
+user    0m25,362s
+sys 0m0,000s
+
+
+Check array_sort_Os
+Bubble sort:    Array sorted, time:  13183.883662 ms
+Selection sort: Array sorted, time:  13826.706283 ms
+Counting sort:  Array sorted, time:      1.212503 ms
+Quick sort:     Array sorted, time:      6.907811 ms
+Std qsort:      Array sorted, time:      9.399805 ms
+
+real    0m27,031s
+user    0m26,980s
+sys 0m0,004s
+
+
+Check array_sort_Os_strip
+Bubble sort:    Array sorted, time:  13185.410568 ms
+Selection sort: Array sorted, time:  13800.085330 ms
+Counting sort:  Array sorted, time:      1.200658 ms
+Quick sort:     Array sorted, time:      7.016388 ms
+Std qsort:      Array sorted, time:      9.853504 ms
+
+real    0m27,022s
+user    0m26,967s
+sys 0m0,004s

@@ -59,3 +59,29 @@ kcachegrind:
 
 ![kcachegrind](https://github.com/EvgenSen/c-examples/blob/master/debug/callgrind.out.1896915.png)
 
+### gcc optimization
+
+| size  | app                        | ............................................ | lead time   | app                        |
+| ----- | ---------------------------|--| ----------- | ---------------------------|
+| 14472 | array_sort_Os_strip        |  | 0m 25,338s  | array_sort_Ofast           |
+| 14472 | array_sort_Ofast_strip     |  | 0m 25,390s  | array_sort_Ofast_strip     |
+| 14472 | array_sort_O3_strip        |  | 0m 25,415s  | array_sort_O3              |
+| 14472 | array_sort_O2_strip        |  | 0m 25,514s  | array_sort_O3_strip        |
+| 14472 | array_sort_O1_strip        |  | 0m 26,622s  | array_sort_O2_strip        |
+| 14472 | array_sort_O0_strip        |  | 0m 27,022s  | array_sort_Os_strip        |
+| 14472 | array_sort_no_flags_strip  |  | 0m 27,031s  | array_sort_Os              |
+| 14472 | array_sort_g3_strip        |  | 0m 27,521s  | array_sort_O1_strip        |
+| 14472 | array_sort_g2_strip        |  | 0m 27,352s  | array_sort_O1              |
+| 14472 | array_sort_g1_strip        |  | 0m 27,535s  | array_sort_O2              |
+| 17760 | array_sort_Os              |  | 1m  8,804s  | array_sort_g2              |
+| 17816 | array_sort_O0              |  | 1m  8,914s  | array_sort_g3              |
+| 17816 | array_sort_no_flags        |  | 1m  8,922s  | array_sort_g2_strip        |
+| 17848 | array_sort_O3              |  | 1m  8,964s  | array_sort_g1_strip        |
+| 17848 | array_sort_O2              |  | 1m  9,080s  | array_sort_g3_strip        |
+| 17848 | array_sort_O1              |  | 1m  9,397s  | array_sort_no_flags        |
+| 19432 | array_sort_Ofast           |  | 1m  9,483s  | array_sort_O0              |
+| 20232 | array_sort_g1              |  | 1m  9,550s  | array_sort_g1              |
+| 23584 | array_sort_g2              |  | 1m  9,942s  | array_sort_O0_strip        |
+| 72280 | array_sort_g3              |  | 1m 10,105s  | array_sort_no_flags_strip  |
+
+
