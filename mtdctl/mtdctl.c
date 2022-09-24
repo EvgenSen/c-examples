@@ -1,4 +1,4 @@
-/*
+/**
  * mtdctl.c - MTD Control utility
  *
  * This example shows how to write and read from MTD devices,
@@ -394,13 +394,13 @@ static void usage(const char *app_name)
 
 int main(int argc, char *argv[])
 {
-	int           opt;
-	int           act    = ACT_NONE;
-	int           offset = 0;
-	int           count  = 1;
-	int           i      = 0;
-	int           ret;
-	int           print_nice        = 0;
+	int opt;
+	int act    = ACT_NONE;
+	int offset = 0;
+	int count  = 1;
+	int i      = 0;
+	int ret;
+	int print_nice = 0;
 	// const char *  file_name         = NULL;
 	const char *  mtd_name          = NULL;
 	const char *  user_str          = NULL;

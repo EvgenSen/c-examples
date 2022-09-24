@@ -1,4 +1,4 @@
-/*
+/**
  * backtrace.c - backtrace example
  *
  * Author: Evgeniy Sennikov <sennikov.work@ya.ru>

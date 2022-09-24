@@ -1,4 +1,4 @@
-/*
+/**
  * signal.c - Simple example of receiving and processing signals
  *
  * Author: Evgeniy Sennikov <sennikov.work@ya.ru>

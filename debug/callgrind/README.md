@@ -23,6 +23,6 @@ Std qsort:      Array sorted, time:      4.214441 ms
 $ kcachegrind callgrind.out.1896915 
 </pre>
 
-kcachegrind:
+## kcachegrind
 
 ![kcachegrind](https://github.com/EvgenSen/c-examples/blob/master/debug/callgrind/callgrind.out.1896915.png)

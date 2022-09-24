@@ -1,4 +1,4 @@
-/*
+/**
  * doubly_linked_list.c - Simple example of Doubly linked list
  *
  * `list_t * head` may be global var. This will make the program easier.

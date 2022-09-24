@@ -1,4 +1,4 @@
-/*
+/**
  * fop_base.c - base file operations
  *
  * This example shows how to work with plain text files

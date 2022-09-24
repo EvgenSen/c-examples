@@ -1,4 +1,4 @@
-/*
+/**
  * server_dgram.c
  *
  * Starts the client using "SOCK_SEQPACKET", send a messages to the server and wait answer

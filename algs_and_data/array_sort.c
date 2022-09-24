@@ -1,4 +1,4 @@
-/*
+/**
  * array_sort.c - Simple example of different
  * sorting algorithms and their comparison.
  *

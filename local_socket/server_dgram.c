@@ -1,4 +1,4 @@
-/*
+/**
  * server_dgram.c
  *
  * Starts the server using "SOCK_DGRAM", receives a message from the client and sends it back

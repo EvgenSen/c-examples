@@ -1,4 +1,4 @@
-/*
+/**
  * mtdctl.h
  *
  * Author: Evgeniy Sennikov <sennikov.work@ya.ru>

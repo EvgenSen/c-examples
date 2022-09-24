@@ -1,7 +1,7 @@
 /**
  * perf.c - test program to demonstrate work of perf utility
  *
- * program write data to tmp.txt file with timeout from
+ * Program write data to tmp.txt file with timeout from
  * timeout.txt file
  *
  * Author: Evgeniy Sennikov <sennikov.work@ya.ru>

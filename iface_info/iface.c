@@ -1,4 +1,4 @@
-/*
+/**
  * iface.c - gets iface info
  *
  * This example gets a list of network interfaces and their parameters.

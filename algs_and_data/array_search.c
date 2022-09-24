@@ -1,4 +1,4 @@
-/*
+/**
  * array_search.c - Simple example of different
  * searching algorithms and their comparison.
  *
@@ -207,8 +207,8 @@ int main()
 {
 	/* stack size is limited, need to use heap */
 	// int arr[ARRAY_SIZE] = {0, };
-	int *              arr   = (int *)calloc(ARRAY_SIZE, sizeof(int));
-	int                value = -1;
+	int *arr   = (int *)calloc(ARRAY_SIZE, sizeof(int));
+	int  value = -1;
 
 	srand(time(NULL));
 

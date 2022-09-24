@@ -1,4 +1,4 @@
-/*
+/**
  * string_parser.c - Simple examples of string parsing
  *
  * Author: Evgeniy Sennikov <sennikov.work@ya.ru>

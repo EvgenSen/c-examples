@@ -1,4 +1,4 @@
-/*
+/**
  * time_of_work.c - Simple example of calculating the spent time
  *
  * To check the operation time of program and compare the methods
