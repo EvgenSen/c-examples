@@ -2,6 +2,7 @@ targets = algs_and_data \
 	debug/backtrace \
 	debug/callgrind \
 	debug/gcc_opt \
+	debug/perf \
 	file_operations \
 	iface_info \
 	kernel_module \
