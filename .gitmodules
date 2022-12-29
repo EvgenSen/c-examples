@@ -1,0 +1,3 @@
+[submodule "daemon-skeleton-linux-c"]
+	path = daemon-skeleton-linux-c
+	url = https://github.com/pasce/daemon-skeleton-linux-c
