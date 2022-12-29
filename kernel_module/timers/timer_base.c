@@ -6,31 +6,46 @@
 
 #define MODULE_NAME "timer_base"
 
-struct timer_list test_timer;
+struct timer_common {
+	struct timer_list timer;
+	char timer_data_str[128];
+};
 
+static struct timer_common test_timer;
 static int counter = 5;
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4,14,0)
 static void test_timer_func(unsigned long data)
-#else
-static void test_timer_func(struct timer_list *t)
-#endif
 {
-	printk(KERN_INFO "%s: %s() started, counter = %d\n", MODULE_NAME, __FUNCTION__, counter);
+	char * local_data_str = (char *) data;
+
+	printk(KERN_INFO "%s: %s() started, counter = %d, data = %s\n", MODULE_NAME, __FUNCTION__, counter, local_data_str ? : "No data");
 
 	if(counter > 0)
 	{
-#if LINUX_VERSION_CODE < KERNEL_VERSION(4,14,0)
-		test_timer.function = &test_timer_func;
-		test_timer.expires  = msecs_to_jiffies(10 + counter * 10 ); // jiffies + 0;
-		add_timer(&test_timer);
-#else
-		timer_setup(&test_timer, test_timer_func, 0);
-		mod_timer(&test_timer, jiffies + msecs_to_jiffies(10 + counter * 10));
-#endif
+		test_timer.timer.function = &test_timer_func;
+		test_timer.timer.expires  = msecs_to_jiffies(10 + counter * 10 ); // jiffies + 0;
+		add_timer(&test_timer.timer);
 		counter--;
 	}
 }
+#else
+static void test_timer_func(struct timer_list *t)
+{
+
+	struct timer_common * test_timer = from_timer(test_timer, t, timer);
+	char * local_data_str = test_timer->timer_data_str;
+
+	printk(KERN_INFO "%s: %s() started, counter = %d, data = %s\n", MODULE_NAME, __FUNCTION__, counter, local_data_str ? : "No data");
+
+	if(counter > 0)
+	{
+		timer_setup(&test_timer->timer, test_timer_func, 0);
+		mod_timer(&test_timer->timer, jiffies + msecs_to_jiffies(10 + counter * 10));
+		counter--;
+	}
+}
+#endif
 
 static int __init timer_base_init(void)
 {
@@ -45,14 +60,17 @@ static int __init timer_base_init(void)
 
 	printk(KERN_INFO "%s: %s() msecs_to_jiffies(%d) = %lu\n", MODULE_NAME, __FUNCTION__, 100, msecs_to_jiffies(100));
 
+	strcpy(test_timer.timer_data_str, "test_data_for_timer_cb");
+
 #if LINUX_VERSION_CODE < KERNEL_VERSION(4,14,0)
-	init_timer(&test_timer);
-	test_timer.function = &test_timer_func;
-	test_timer.expires  = jiffies + msecs_to_jiffies(100);
-	add_timer(&test_timer);
+	init_timer(&test_timer.timer);
+	test_timer.timer.function = &test_timer_func;
+	test_timer.timer.expires  = jiffies + msecs_to_jiffies(100);
+	test_timer.timer.data     = (unsigned long) test_timer.timer_data_str;
+	add_timer(&test_timer.timer);
 #else
-	timer_setup(&test_timer, test_timer_func, 0);
-	mod_timer(&test_timer, jiffies + msecs_to_jiffies(100));
+	timer_setup(&test_timer.timer, test_timer_func, 0);
+	mod_timer(&test_timer.timer, jiffies + msecs_to_jiffies(100));
 #endif
 
 	return 0;
@@ -66,7 +84,7 @@ static void __exit timer_base_cleanup(void)
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Evgeniy Sennikov <sennikov.work@ya.ru>");
 MODULE_DESCRIPTION("Simple Timer module");
-MODULE_VERSION("1.1");
+MODULE_VERSION("1.2");
 
 module_init(timer_base_init);
 module_exit(timer_base_cleanup);
