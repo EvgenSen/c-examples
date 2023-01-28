@@ -21,12 +21,30 @@ $ sudo perf script > perf_script.output
 
 ## flamescope
 
+<pre>
+$ cp perf_script.output /tmp/profiles/perf_script.output
+$ cd $(PATH_TO_FLAMESCOPE)flamescope
+$ docker run --rm -it -v /tmp/profiles:/profiles:ro -p 5000:5000 flamescope
+</pre>
+
 ![flamescope_1](https://github.com/EvgenSen/c-examples/blob/master/debug/perf/flamescope_1.png)
 
 ![flamescope_2](https://github.com/EvgenSen/c-examples/blob/master/debug/perf/flamescope_2.png)
+
+## flamegraph
+
+<pre>
+$ cp perf_script.output $(PATH_TO_FLAMEGRAPH)/FlameGraph/perf.data
+$ cd $(PATH_TO_FLAMEGRAPH)/FlameGraph
+$ perf script | ./stackcollapse-perf.pl | ./flamegraph.pl > flamegraph.svg
+</pre>
+
+![flamegraph](https://github.com/EvgenSen/c-examples/blob/master/debug/perf/flamegraph.svg)
 
 ## References
 
 https://www.brendangregg.com/perf.html
 
 https://github.com/Netflix/flamescope
+
+https://github.com/brendangregg/FlameGraph
