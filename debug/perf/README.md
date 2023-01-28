@@ -39,7 +39,7 @@ $ cd $(PATH_TO_FLAMEGRAPH)/FlameGraph
 $ perf script | ./stackcollapse-perf.pl | ./flamegraph.pl > flamegraph.svg
 </pre>
 
-![flamegraph](https://github.com/EvgenSen/c-examples/blob/master/debug/perf/flamegraph.svg)
+![flamegraph](https://raw.githubusercontent.com/EvgenSen/c-examples/master/debug/perf/flamegraph.svg)
 
 ## References
 
