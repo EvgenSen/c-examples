@@ -5,11 +5,9 @@ targets = algs_and_data \
 	debug/perf \
 	file_operations \
 	iface_info \
+	ipc_itc \
 	kernel_module \
-	local_socket \
 	mtdctl \
-	processes \
 	signals \
 	string_parser \
-	threads \
 	time_of_work \
