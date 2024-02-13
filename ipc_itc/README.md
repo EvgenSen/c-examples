@@ -109,3 +109,30 @@ evgen@MyPC:~/projects/c-examples/threads$ ps -eL | grep -e Unit -e threads_and_m
 [143177] start detach shared memory...
 [143177] shared memory successfully detached
 </pre>
+
+## select_and_pipes
+
+<pre>
+➜  ipc_itc git:(master) ✗ ./select_and_pipes
+[main()] started
+[thread_func()] child started
+[main()] timeout
+[main()] timeout
+[main()] timeout
+[main()] read 13 bytes from pipe: thread_msg_0
+[main()] timeout
+[main()] timeout
+[main()] timeout
+[main()] read 13 bytes from pipe: thread_msg_1
+[main()] timeout
+[main()] timeout
+[main()] timeout
+[main()] read 13 bytes from pipe: thread_msg_2
+qwertyu
+[main()] read 8 bytes from keyboard: qwertyu
+[main()] timeout
+[main()] timeout
+[main()] timeout
+[main()] read 13 bytes from pipe: thread_msg_3
+^C
+</pre>
