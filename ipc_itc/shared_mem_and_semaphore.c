@@ -12,6 +12,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/wait.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
@@ -33,41 +34,43 @@
 
 // clang-format on
 
-int main()
+int main(int argc, char *argv[])
 {
-	pid_t  pid;
+	pid_t  pid = getpid();
 	sem_t *sem;
 	int    i;
-	int *  zoloto; // Указатель на разделяемую память
+	int   *zoloto; // Указатель на разделяемую память
 	int    shmid;  // IPC дескриптор для области разделяемой памяти
 	char   ipc_key_name[] = IPC_KEY_FILENAME;
 	key_t  key; // IPC ключ
 
 	srand(time(NULL));
 
-	// if ( argc == 2 )
-	// {
-	// 	printf("Dropping semaphore...\n");
-	// 	if ( (sem = sem_open(SEMAPHORE_NAME, 0)) == SEM_FAILED )
-	// 	{
-	// 		perror("sem_open");
-	// 		return 1;
-	// 	}
-	// 	sem_post(sem);
-	// 	perror("sem_post");
-	// 	printf("Программа запущена\n");
-	// 	return 0;
-	// }
+	if (argc == 2 && !strcmp(argv[1], "drop"))
+	{
+		printf("[%d] Dropping semaphore...\n", pid);
+		if ((sem = sem_open(SEMAPHORE_NAME, 0)) == SEM_FAILED)
+		{
+			perror("sem_open");
+			return 1;
+		}
+		if (sem_post(sem) < 0)
+		{
+			perror("sem_post");
+		}
+		printf("[%d] Started!\n", pid);
+		return 0;
+	}
 
-	printf("start create ipc key...\n");
+	printf("[%d] start create ipc key...\n", pid);
 	if ((key = ftok(ipc_key_name, 0)) < 0)
 	{
 		perror("ipc key create failed");
 		return 2;
 	}
-	printf("ipc key successfully created\n");
+	printf("[%d] ipc key successfully created\n", pid);
 
-	printf("start create shared memory...\n");
+	printf("[%d] start create shared memory...\n", pid);
 	if ((shmid = shmget(key, sizeof(int), 0666 | IPC_CREAT | IPC_EXCL)) < 0)
 	{
 		if (errno != EEXIST)
@@ -84,23 +87,23 @@ int main()
 			}
 		}
 	}
-	printf("shared memory successfully created\n");
+	printf("[%d] shared memory successfully created\n", pid);
 
-	printf("start attach shared memory...\n");
+	printf("[%d] start attach shared memory...\n", pid);
 	if ((zoloto = (int *)shmat(shmid, NULL, 0)) == (int *)(-1))
 	{
 		perror("Couldn't attach shared memory");
 		return 5;
 	}
-	printf("shared memory successfully attached\n");
+	printf("[%d] shared memory successfully attached\n", pid);
 
-	printf("start create semaphore...\n");
+	printf("[%d] start create semaphore...\n", pid);
 	if ((sem = sem_open(SEMAPHORE_NAME, O_CREAT, 0777, 0)) == SEM_FAILED)
 	{
 		perror("sem_open");
 		return 6;
 	}
-	printf("semaphore successfully created\n");
+	printf("[%d] semaphore successfully created\n", pid);
 
 	*zoloto = ZOLOTO_ALL;
 
@@ -109,6 +112,8 @@ int main()
 		pid = fork();
 		if (pid == 0)
 		{
+			pid = getpid();
+			printf("[%d] child %d started\n", pid, i + 1);
 			/* child process start */
 			while (*zoloto > 0)
 			{
@@ -117,7 +122,7 @@ int main()
 				if (*zoloto > 0)
 				{
 					*zoloto -= ZOLOTO_ONE;
-					printf("%d Юнит забрал золото, в шахте осталось: %d \n", i + 1, *zoloto);
+					printf("[%d] %d Юнит забрал золото, в шахте осталось: %d \n", pid, i + 1, *zoloto);
 				}
 				sem_post(sem);
 				sleep(rand() % 4 + 1);
@@ -127,21 +132,21 @@ int main()
 		}
 	}
 
-	printf("wait child process\n");
+	printf("[%d] wait child process\n", pid);
 	for (i = 0; i < CHILD_COUNT; i++)
 	{
 		waitpid(-1, NULL, 0);
 	}
 
-	printf("Золота в шахте: %d\n", *zoloto);
+	printf("[%d] Золота в шахте: %d\n", pid, *zoloto);
 
-	printf("start detach shared memory...\n");
+	printf("[%d] start detach shared memory...\n", pid);
 	if (shmdt(zoloto) < 0)
 	{
 		perror("Couldn't detach shared memory");
 		return 7;
 	}
-	printf("shared memory successfully detached\n");
+	printf("[%d] shared memory successfully detached\n", pid);
 
 	// Удаляем из системы идентификатор разделяемого сегмента
 	shmctl(shmid, IPC_RMID, 0);
