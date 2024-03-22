@@ -109,6 +109,8 @@ int16_t * wave_read_data(struct wave_header hdr, FILE * fd)
 	long bytes_in_each_channel = (size_of_each_sample / hdr.fmt_hdr.nchan);
 	char data_buffer[size_of_each_sample];
 
+	printf("size_of_each_sample=%ld\n", size_of_each_sample);
+
 	if ((bytes_in_each_channel  * hdr.fmt_hdr.nchan) != size_of_each_sample)
 	{
 		printf("Error: %ld x %u != %ld\n", bytes_in_each_channel, hdr.fmt_hdr.nchan, size_of_each_sample);

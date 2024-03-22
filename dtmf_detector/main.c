@@ -19,14 +19,12 @@
 #include "wave.h"
 #include "dsp.h"
 
-digit_detect_state_t dtmf_detect_state; // TODO: why don't work if local variable ?
-
 int main(int argc, char **argv)
 {
 	FILE *fd;
 	struct wave_header hdr;
-	// digit_detect_state_t dtmf_detect_state;
-	int last_num_digit;
+	digit_detect_state_t dtmf_detect_state;
+	int last_num_digit = 0;
 	int i;
 
 	memset(&dtmf_detect_state, 0, sizeof(digit_detect_state_t));
