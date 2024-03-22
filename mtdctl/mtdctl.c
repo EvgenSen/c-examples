@@ -402,8 +402,8 @@ int main(int argc, char *argv[])
 	int ret;
 	int print_nice = 0;
 	// const char *  file_name         = NULL;
-	const char *  mtd_name          = NULL;
-	const char *  user_str          = NULL;
+	const char   *mtd_name          = NULL;
+	const char   *user_str          = NULL;
 	unsigned char buffer[BUFF_SIZE] = {0};
 
 	log_file = stderr;

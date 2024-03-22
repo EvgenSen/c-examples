@@ -18,5 +18,6 @@ build clean:
 
 code_style:
 	@for i in $(targets); do \
-		clang-format-10 $$i/*.[ch] -i --verbose --Werror ; \
+		echo -e "\n  Check $$i ..." ; \
+		clang-format $$i/*.[ch] -i --verbose --Werror ; \
 	done \

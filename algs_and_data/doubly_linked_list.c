@@ -158,8 +158,8 @@ list_t *delete_by_id(list_t *head, int id)
 				return head;
 			}
 			else
-				printf("Error: elem with NULL prev and next link (id=%d, name='%s', data='%s')\n",
-				        cur->id, cur->name, cur->data);
+				printf("Error: elem with NULL prev and next link (id=%d, name='%s', data='%s')\n", cur->id, cur->name,
+				       cur->data);
 		}
 		cur = cur->next;
 	}

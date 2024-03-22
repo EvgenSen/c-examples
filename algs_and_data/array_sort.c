@@ -127,7 +127,7 @@ void swap(int *a, int *b)
  */
 void quick_sort_recursive(int *arr, int first, int last)
 {
-	int pivot = first;     // Первый элемент сортируемого блока выбираем как опорный
+	int pivot = first; // Первый элемент сортируемого блока выбираем как опорный
 	int left  = first + 1; // Левая граница - второй элемент
 	int right = last;      // Правая граница - последний элемент
 
@@ -312,7 +312,7 @@ void do_std_qsort(int *arr, int arr_size)
  */
 int test_sort(int *arr, int arr_size, void (*sort_func)(int *, int))
 {
-	int *              tmp_arr = NULL;
+	int	           *tmp_arr = NULL;
 	int                sorted  = 0;
 	struct timespec    ts_st, ts_end;
 	unsigned long long delta_timespec;

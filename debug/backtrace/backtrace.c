@@ -16,7 +16,7 @@ int bar(int depth);
 /* https://www.gnu.org/software/libc/manual/html_node/Backtraces.html */
 void print_backtrace(void)
 {
-	void * array[10];
+	void  *array[10];
 	char **strings;
 	int    size, i;
 
