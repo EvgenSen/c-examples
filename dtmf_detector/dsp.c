@@ -117,8 +117,8 @@
 /* How many successive misses needed to consider end of a digit
  * IE. Override with dtmf_misses_to_end=4 in dsp.conf
  */
-// #define DEF_DTMF_MISSES_TO_END	3
-#define DEF_DTMF_MISSES_TO_END 10
+#define DEF_DTMF_MISSES_TO_END	2
+// #define DEF_DTMF_MISSES_TO_END 10
 
 static const float dtmf_row[] = {697.0, 770.0, 852.0, 941.0};
 static const float dtmf_col[] = {1209.0, 1336.0, 1477.0, 1633.0};
